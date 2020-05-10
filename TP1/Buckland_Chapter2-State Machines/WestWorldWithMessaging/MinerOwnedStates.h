@@ -172,6 +172,36 @@ public:
   virtual bool OnMessage(Miner* agent, const Telegram& msg);
 };
 
+//------------------------------------------------------------------------
+//
+//  this is implemented as a state blip. The miner picks up a fight with
+//  the alcholic, then return to his previous state
+//
+//------------------------------------------------------------------------
+class FightAlcoholic : public State<Miner>
+{
+private:
+
+    FightAlcoholic() {}
+
+    //copy ctor and assignment should be private
+    FightAlcoholic(const EatStew&);
+    FightAlcoholic& operator=(const EatStew&);
+
+public:
+
+    //this is a singleton
+    static FightAlcoholic* Instance();
+
+    virtual void Enter(Miner* miner);
+
+    virtual void Execute(Miner* miner);
+
+    virtual void Exit(Miner* miner);
+
+    virtual bool OnMessage(Miner* agent, const Telegram& msg);
+};
+
 
 
 

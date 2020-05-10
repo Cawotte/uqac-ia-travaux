@@ -78,7 +78,7 @@ bool Drunk::OnMessage(Alcoholic* alcoholic, const Telegram& msg)
 
 	switch (msg.Msg)
 	{
-	case Msg_StartingAFight:
+	case Msg_ImInTheSaloon:
 
 		cout << "\nMessage handled by " << GetNameOfEntity(alcoholic->ID())
 			<< " at time: " << Clock->GetCurrentTime();
@@ -120,6 +120,7 @@ void FightWithTheMiner::Enter(Alcoholic* alcoholic)
 
 void FightWithTheMiner::Execute(Alcoholic* alcoholic)
 {
+
 	cout << "\n" << GetNameOfEntity(alcoholic->ID()) << ": " << "Take that! Punchin' ya' right in yer nose!";
 
 	alcoholic->GetFSM()->ChangeState(DrinkBeer::Instance());
@@ -128,6 +129,8 @@ void FightWithTheMiner::Execute(Alcoholic* alcoholic)
 
 void FightWithTheMiner::Exit(Alcoholic* alcoholic)
 {
+	alcoholic->SoberUp();
+
 	cout << "\n" << GetNameOfEntity(alcoholic->ID()) << ": " << " What is tha' bucket of water for? *Splash* *Splash* Okay, I'm think I'm soberin' up... sorry all";
 }
 

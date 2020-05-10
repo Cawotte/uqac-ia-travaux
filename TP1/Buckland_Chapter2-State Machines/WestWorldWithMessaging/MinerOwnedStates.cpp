@@ -230,6 +230,13 @@ void QuenchThirst::Enter(Miner* pMiner)
     pMiner->ChangeLocation(saloon);
 
     cout << "\n" << GetNameOfEntity(pMiner->ID()) << ": " << "Boy, ah sure is thusty! Walking to the saloon";
+
+    //let the alcoholic know I'm in the saloon
+    Dispatch->DispatchMessage(SEND_MSG_IMMEDIATELY, //time delay
+        pMiner->ID(),        //ID of sender
+        ent_Alcoholic,       //ID of recipient
+        Msg_ImInTheSaloon,   //the message
+        NO_ADDITIONAL_INFO);
   }
 }
 
@@ -245,14 +252,36 @@ void QuenchThirst::Execute(Miner* pMiner)
 
 void QuenchThirst::Exit(Miner* pMiner)
 { 
-  cout << "\n" << GetNameOfEntity(pMiner->ID()) << ": " << "Leaving the saloon, feelin' good";
+  //The miner doesn't leave the saloon if it goes into a fight, making that message wrong
+  //cout << "\n" << GetNameOfEntity(pMiner->ID()) << ": " << "Leaving the saloon, feelin' good";
 }
 
 
 bool QuenchThirst::OnMessage(Miner* pMiner, const Telegram& msg)
 {
-  //send msg to global message handler
-  return false;
+    //If the alcoholic picked up a fight, fight!
+
+    SetTextColor(BACKGROUND_RED | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
+    switch (msg.Msg)
+    {
+    case Msg_StartingAFight:
+
+        cout << "\nMessage handled by " << GetNameOfEntity(pMiner->ID())
+            << " at time: " << Clock->GetCurrentTime();
+
+        SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
+
+        cout << "\n" << GetNameOfEntity(pMiner->ID()) << ": "
+            << "You're messing' with the wrong dude, alcoholic";
+
+        pMiner->GetFSM()->ChangeState(FightAlcoholic::Instance());
+
+        return true;
+
+    }
+
+    return false;
 }
 
 //------------------------------------------------------------------------EatStew
@@ -290,3 +319,33 @@ bool EatStew::OnMessage(Miner* pMiner, const Telegram& msg)
 }
 
 
+// -------------- Methods for FightAlcoholic State --------------
+
+FightAlcoholic* FightAlcoholic::Instance()
+{
+    static FightAlcoholic instance;
+
+    return &instance;
+}
+
+void FightAlcoholic::Enter(Miner* miner)
+{
+    cout << "\n" << GetNameOfEntity(miner->ID()) << ": " << "You're gonna regret that!";
+}
+
+void FightAlcoholic::Execute(Miner* miner)
+{
+    cout << "\n" << GetNameOfEntity(miner->ID()) << ": " << "Hope ya' learned your lesson!";
+
+    miner->GetFSM()->RevertToPreviousState();
+}
+
+void FightAlcoholic::Exit(Miner* miner)
+{
+    cout << "\n" << GetNameOfEntity(miner->ID()) << ": " << "Don't cross my path again";
+}
+
+bool FightAlcoholic::OnMessage(Miner* agent, const Telegram& msg)
+{
+    return false;
+}

@@ -14,6 +14,7 @@
 #include "BaseGameEntity.h"
 #include "Locations.h"
 #include "fsm/StateMachine.h"
+#include "AlcoholicOwnedStates.h"
 
 
 template <class entity_type> class State;
@@ -49,8 +50,7 @@ public:
         //set up state machine
         m_pStateMachine = std::make_unique<StateMachine<Alcoholic>>(this);
 
-        //TODO : Add default state when implemented
-        //m_pStateMachine->SetCurrentState(STARTING_STATE::Instance());
+        m_pStateMachine->SetCurrentState(DrinkBeer::Instance());
     }
 
     void Update();

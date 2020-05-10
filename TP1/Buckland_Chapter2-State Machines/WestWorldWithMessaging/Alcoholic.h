@@ -20,7 +20,7 @@ template <class entity_type> class State;
 struct Telegram;
 
 //Above this value the alcoholic is drunk
-const int DrunkLevel = 5;
+const int DrunkLevel = 4;
 
 class Alcoholic : public BaseGameEntity
 {
@@ -70,7 +70,7 @@ public:
     bool    IsDrunk() const { return m_iDrunkeness >= DrunkLevel; }
 
     void    SoberUp() { m_iDrunkeness = 0; }
-    void    DrinkBeer() { m_iDrunkeness += 2; }
+    void    DrinkBeer() { m_iDrunkeness += 1; }
 };
 
 

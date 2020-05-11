@@ -51,7 +51,7 @@
     <ClCompile Include="AlcoholicOwnedStates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AgentThread.cpp">
+    <ClCompile Include="MultithreadManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,7 +119,7 @@
     <ClInclude Include="AlcoholicOwnedStates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AgentThread.h">
+    <ClInclude Include="MultithreadManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

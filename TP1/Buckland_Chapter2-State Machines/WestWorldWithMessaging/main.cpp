@@ -11,12 +11,12 @@
 #include "EntityNames.h"
 
 //Multithreading
-#include "AgentThread.h"
-#include "thread"
-#include <mutex>
-#include <condition_variable>
+#include "MultithreadManager.h"
 
 std::ofstream os;
+
+bool const USE_MULTITHREADING = true;
+int const NB_ITERATIONS = 30;
 
 int main()
 {
@@ -45,30 +45,36 @@ int main()
 	EntityMgr->RegisterEntity(elsa.get());
 	EntityMgr->RegisterEntity(alcoholic.get());
 
+	if (USE_MULTITHREADING)
+	{
 
-	// --------- Multithreading
+		// --------- Multithreading
+		MultithreadManager multithreadManager;
 
-	//locks and condition variables
-	std::mutex mtx;
-	std::condition_variable cv;
+		multithreadManager.RegisterEntity(bob.get());
+		multithreadManager.RegisterEntity(elsa.get());
+		multithreadManager.RegisterEntity(alcoholic.get());
+
+		multithreadManager.RunMultithreadAgents(NB_ITERATIONS);
+	}
+	else
+	{
+
+		//The agents will be run in the thread, we keep them synchronized here.
+		for (int i = 0; i < NB_ITERATIONS; ++i)
+		{
+			bob->Update();
+			elsa->Update();
+			alcoholic->Update();
+
+			//dispatch any delayed messages
+			Dispatch->DispatchDelayedMessages();
+
+			Sleep(500);
+		}
+	}
 
 	
-	std::thread bobThread(AgentThread(), bob.get(), &mtx, &cv);
-	std::thread elsaThread(AgentThread(), elsa.get(), &mtx, &cv);
-	std::thread alcoThread(AgentThread(), alcoholic.get(), &mtx, &cv);
-	
-	//The agents will be run in the thread, we keep them synchronized here.
-	for (int i=0; i<30; ++i)
-	{ 
-
-		//dispatch any delayed messages
-		Dispatch->DispatchDelayedMessages();
-
-		Sleep(50);
-		cv.notify_all();
-	} 
-	
-
 	//smart ptr do the cleaning on its own.
 
 	//wait for a keypress before exiting

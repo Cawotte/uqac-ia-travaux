@@ -66,6 +66,7 @@
       <ObjectFileName>.\Release\</ObjectFileName>
       <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>..\..\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Midl>
       <TypeLibraryName>.\Release\WestWorldWithMessaging.tlb</TypeLibraryName>
@@ -104,6 +105,7 @@
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalIncludeDirectories>..\..\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Midl>
       <TypeLibraryName>.\Debug\WestWorldWithMessaging.tlb</TypeLibraryName>
@@ -126,7 +128,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\Time\CrudeTimer.cpp" />
-    <ClCompile Include="AgentThread.cpp" />
     <ClCompile Include="Alcoholic.cpp" />
     <ClCompile Include="AlcoholicOwnedStates.cpp" />
     <ClCompile Include="BaseGameEntity.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="MinerOwnedStates.cpp" />
     <ClCompile Include="MinersWife.cpp" />
     <ClCompile Include="MinersWifeOwnedStates.cpp" />
+    <ClCompile Include="MultithreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\2D\SVector2D.h" />
@@ -148,7 +150,6 @@
     <ClInclude Include="..\..\Common\misc\utils.h" />
     <ClInclude Include="..\..\Common\Time\CrudeTimer.h" />
     <ClInclude Include="..\..\Common\utils.h" />
-    <ClInclude Include="AgentThread.h" />
     <ClInclude Include="Alcoholic.h" />
     <ClInclude Include="AlcoholicOwnedStates.h" />
     <ClInclude Include="BaseGameEntity.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="MinerOwnedStates.h" />
     <ClInclude Include="MinersWife.h" />
     <ClInclude Include="MinersWifeOwnedStates.h" />
+    <ClInclude Include="MultithreadManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

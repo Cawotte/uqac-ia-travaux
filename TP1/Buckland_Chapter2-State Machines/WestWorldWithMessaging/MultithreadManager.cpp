@@ -4,8 +4,7 @@
 #include "MessageDispatcher.h"
 
 //print thread-safe
-#include <iostream>
-#include <memory>
+#include "ConsoleUtilsThreadSafe.h"
 
 void MultithreadManager::StartThread(BaseGameEntity* entity, int nbIterations)
 {
@@ -13,7 +12,7 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, int nbIterations)
 
 	for (int i = 0; i < nbIterations; i++)
 	{
-		//entity->Update();
+		entity->Update();
 
 		//When the entity has finished its update, increment the counter to
 		//inform it has finished.
@@ -21,7 +20,7 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, int nbIterations)
 
 		std::unique_lock<std::mutex> lock_cv(m_mtx);
 		m_countFinishedUpdate++;
-		PrintThreadSafe(" Increment counter : ", m_countFinishedUpdate);
+		//ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Increment counter : ", m_countFinishedUpdate);
 
 		//If all entities have finished their update loop
 		if (m_countFinishedUpdate >= nbThreads)
@@ -30,30 +29,31 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, int nbIterations)
 			m_countFinishedUpdate = 0;
 
 			//Global event that must happen once per Update Loop after all Updates
-			//MessageDispatcher::Instance()->DispatchDelayedMessages();
+			MessageDispatcher::Instance()->DispatchDelayedMessages();
 
 			//Sleep(100);
 
 			//unlock all threads
-			PrintThreadSafe(" Notify All! #", (i + 1));
+			//ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Notify All! #", (i + 1));
 			m_cv.notify_all(); 
 			
 		}
 		else 
 		{
 			//wait for the last thread to finish
-			PrintThreadSafe(" Wait for Notify");
-			m_cv.wait(lock_cv); //the lock is automatically unlock here
+			//ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Wait for Notify");
+			m_cv.wait(lock_cv); //the lock is automatically released here
 		}
 	}
 }
 
+/*
 template <typename ... T>
 void MultithreadManager::PrintThreadSafe(T&& ... args)
 {
 	std::lock_guard<std::mutex> lock(m_mtx_cmd);
 	(std::cout << ... << std::forward<T>(args)) << std::endl;
-}
+} */
 
 void MultithreadManager::RunMultithreadAgents(int nbIterations)
 {

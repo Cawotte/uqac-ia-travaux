@@ -1,5 +1,6 @@
 #include "BaseGameEntity.h"
 #include <cassert>
+#include <windows.h>
 
 
 
@@ -22,4 +23,9 @@ void BaseGameEntity::SetID(int val)
   m_ID = val;
     
   m_iNextValidID = m_ID + 1;
+}
+
+
+WORD BaseGameEntity::TextColor() const {
+    return FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN;
 }

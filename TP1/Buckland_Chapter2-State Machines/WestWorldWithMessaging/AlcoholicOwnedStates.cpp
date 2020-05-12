@@ -27,7 +27,7 @@ void DrinkBeer::Execute(Alcoholic* alcoholic)
 {
 	alcoholic->DrinkBeer();
 
-	cout << "\n" << GetNameOfEntity(alcoholic->ID()) << ": " << "Drinkin' a beer";
+	alcoholic->PrintThreadSafe(": Drinkin' a beer");
 
 	if (alcoholic->IsDrunk())
 	{
@@ -58,12 +58,12 @@ Drunk* Drunk::Instance()
 
 void Drunk::Enter(Alcoholic* alcoholic)
 {
-	cout << "\n" << GetNameOfEntity(alcoholic->ID()) << ": " << "Hic! Feeling li - Hic! - brawlin' with anyone";
+	alcoholic->PrintThreadSafe(": Hic! Feeling li - Hic! - brawlin' with anyone");
 }
 
 void Drunk::Execute(Alcoholic* alcoholic)
 {
-	cout << "\n" << GetNameOfEntity(alcoholic->ID()) << ": " << "I assuuuuuuuure you.. I'm not dru - Hic! - nk.. hic!";
+	alcoholic->PrintThreadSafe(": I assuuuuuuuure you.. I'm not dru - Hic! - nk.. hic!");
 }
 
 void Drunk::Exit(Alcoholic* alcoholic)
@@ -74,19 +74,14 @@ bool Drunk::OnMessage(Alcoholic* alcoholic, const Telegram& msg)
 {
 	//If the miner arrived in the saloon, pick up a fight with him.
 
-	SetTextColor(BACKGROUND_RED | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-
 	switch (msg.Msg)
 	{
 	case Msg_ImInTheSaloon:
 
-		cout << "\nMessage handled by " << GetNameOfEntity(alcoholic->ID())
-			<< " at time: " << Clock->GetCurrentTime();
 
-		SetTextColor(FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+		Dispatch->PrintSafeHandleConfirmation(alcoholic);
 
-		cout << "\n" << GetNameOfEntity(alcoholic->ID()) << ": "
-			<< "How did ya' dare looking - hic! - at me? I'm gonna break your face!";
+		alcoholic->PrintThreadSafe(": How did ya' dare looking - hic! - at me? I'm gonna break your face!");
 
 		alcoholic->GetFSM()->ChangeState(FightWithTheMiner::Instance());
 
@@ -121,7 +116,7 @@ void FightWithTheMiner::Enter(Alcoholic* alcoholic)
 void FightWithTheMiner::Execute(Alcoholic* alcoholic)
 {
 
-	cout << "\n" << GetNameOfEntity(alcoholic->ID()) << ": " << "Take that! Punchin' ya' right in yer nose!";
+	alcoholic->PrintThreadSafe(": Take that! Punchin' ya' right in yer nose!");
 
 	alcoholic->GetFSM()->ChangeState(DrinkBeer::Instance());
 
@@ -131,7 +126,7 @@ void FightWithTheMiner::Exit(Alcoholic* alcoholic)
 {
 	alcoholic->SoberUp();
 
-	cout << "\n" << GetNameOfEntity(alcoholic->ID()) << ": " << " What is tha' bucket of water for? *Splash* *Splash* Okay, I'm think I'm soberin' up... sorry all";
+	alcoholic->PrintThreadSafe(": What is tha' bucket of water for? *Splash* *Splash* Okay, I'm think I'm soberin' up... sorry all");
 }
 
 bool FightWithTheMiner::OnMessage(Alcoholic* agent, const Telegram& msg)

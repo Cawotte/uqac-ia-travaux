@@ -58,6 +58,9 @@ public:
     virtual bool  HandleMessage(const Telegram& msg);
 
 
+    //Text color for wife
+    WORD          TextColor() const override { return FOREGROUND_BLUE | FOREGROUND_INTENSITY; };
+
     //-------------------------------------------------------------accessors
 
     

@@ -66,6 +66,7 @@
       <ObjectFileName>.\Release\</ObjectFileName>
       <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>..\..\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Midl>
       <TypeLibraryName>.\Release\WestWorldWithMessaging.tlb</TypeLibraryName>
@@ -104,6 +105,7 @@
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalIncludeDirectories>..\..\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Midl>
       <TypeLibraryName>.\Debug\WestWorldWithMessaging.tlb</TypeLibraryName>
@@ -129,6 +131,7 @@
     <ClCompile Include="Alcoholic.cpp" />
     <ClCompile Include="AlcoholicOwnedStates.cpp" />
     <ClCompile Include="BaseGameEntity.cpp" />
+    <ClCompile Include="ConsoleUtilsThreadSafe.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageDispatcher.cpp" />
@@ -136,6 +139,7 @@
     <ClCompile Include="MinerOwnedStates.cpp" />
     <ClCompile Include="MinersWife.cpp" />
     <ClCompile Include="MinersWifeOwnedStates.cpp" />
+    <ClCompile Include="MultithreadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\2D\SVector2D.h" />
@@ -150,6 +154,7 @@
     <ClInclude Include="Alcoholic.h" />
     <ClInclude Include="AlcoholicOwnedStates.h" />
     <ClInclude Include="BaseGameEntity.h" />
+    <ClInclude Include="ConsoleUtilsThreadSafe.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="EntityNames.h" />
     <ClInclude Include="Locations.h" />
@@ -159,6 +164,7 @@
     <ClInclude Include="MinerOwnedStates.h" />
     <ClInclude Include="MinersWife.h" />
     <ClInclude Include="MinersWifeOwnedStates.h" />
+    <ClInclude Include="MultithreadManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

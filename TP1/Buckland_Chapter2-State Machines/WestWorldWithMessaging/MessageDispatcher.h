@@ -14,7 +14,6 @@
 
 #include <set>
 
-
 #include "misc/ConsoleUtils.h"
 #include "messaging/Telegram.h"
 
@@ -49,6 +48,8 @@ private:
   MessageDispatcher(const MessageDispatcher&);
   MessageDispatcher& operator=(const MessageDispatcher&);
 
+  //Color of the text for printed Messages
+  WORD TextColor() const;
 public:
 
   //this class is a singleton
@@ -64,6 +65,9 @@ public:
   //send out any delayed messages. This method is called each time through   
   //the main game loop.
   void DispatchDelayedMessages();
+
+  //Print default message for confirming messages reception
+  void PrintSafeHandleConfirmation(BaseGameEntity* entity);
 };
 
 

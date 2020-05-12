@@ -5,6 +5,7 @@
 #include "Locations.h"
 #include "MessageTypes.h"
 #include "EntityNames.h"
+#include "ConsoleUtilsThreadSafe.h"
 
 #include <iostream>
 using std::cout;
@@ -20,6 +21,11 @@ extern std::ofstream os;
 
 
 //------------------------------ Instance -------------------------------------
+
+WORD MessageDispatcher::TextColor() const
+{
+    return BACKGROUND_RED | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+}
 
 MessageDispatcher* MessageDispatcher::Instance()
 {
@@ -39,7 +45,7 @@ void MessageDispatcher::Discharge(BaseGameEntity* pReceiver,
   if (!pReceiver->HandleMessage(telegram))
   {
     //telegram could not be handled
-    cout << "Message not handled";
+    CoutSafe.PrintThreadSafe("Message not handled", TextColor());
   }
 }
 
@@ -55,7 +61,6 @@ void MessageDispatcher::DispatchMessage(double  delay,
                                         int    msg,
                                         void*  ExtraInfo)
 {
-  SetTextColor(BACKGROUND_RED|FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
 
   //get pointers to the sender and receiver
   BaseGameEntity* pSender   = EntityMgr->GetEntityFromID(sender);
@@ -64,7 +69,7 @@ void MessageDispatcher::DispatchMessage(double  delay,
   //make sure the receiver is valid
   if (pReceiver == NULL)
   {
-    cout << "\nWarning! No Receiver with ID of " << receiver << " found";
+    CoutSafe.PrintThreadSafe("Warning! No Receiver with ID of ", receiver, " not found", TextColor());
 
     return;
   }
@@ -75,9 +80,20 @@ void MessageDispatcher::DispatchMessage(double  delay,
   //if there is no delay, route telegram immediately                       
   if (delay <= 0.0f)                                                        
   {
-    cout << "\nInstant telegram dispatched at time: " << Clock->GetCurrentTime()
+    /*cout << "\nInstant telegram dispatched at time: " << Clock->GetCurrentTime()
          << " by " << GetNameOfEntity(pSender->ID()) << " for " << GetNameOfEntity(pReceiver->ID()) 
-         << ". Msg is "<< MsgToStr(msg);
+         << ". Msg is "<< MsgToStr(msg); */
+
+    CoutSafe.PrintThreadSafe("Instant telegram dispatched at time: ",
+        Clock->GetCurrentTime(),
+        " by ",
+        GetNameOfEntity(pSender->ID()),
+        TextColor());
+    CoutSafe.PrintThreadSafe(" for ",
+        GetNameOfEntity(pReceiver->ID()),
+        ". Msg is ",
+        MsgToStr(msg),
+        TextColor());
 
     //send the telegram to the recipient
     Discharge(pReceiver, telegram);
@@ -93,9 +109,19 @@ void MessageDispatcher::DispatchMessage(double  delay,
     //and put it in the queue
     PriorityQ.insert(telegram);   
 
-    cout << "\nDelayed telegram from " << GetNameOfEntity(pSender->ID()) << " recorded at time " 
+    CoutSafe.PrintThreadSafe("Delayed telegram from ",
+        GetNameOfEntity(pSender->ID()),
+        " recorded at time ",
+        Clock->GetCurrentTime(),
+        TextColor());
+    CoutSafe.PrintThreadSafe(" for ",
+        GetNameOfEntity(pReceiver->ID()),
+        ". Msg is ",
+        MsgToStr(msg),
+        TextColor());
+    /*cout << "\nDelayed telegram from " << GetNameOfEntity(pSender->ID()) << " recorded at time " 
             << Clock->GetCurrentTime() << " for " << GetNameOfEntity(pReceiver->ID())
-            << ". Msg is "<< MsgToStr(msg);
+            << ". Msg is "<< MsgToStr(msg);*/
             
   }
 }
@@ -126,8 +152,11 @@ void MessageDispatcher::DispatchDelayedMessages()
     //find the recipient
     BaseGameEntity* pReceiver = EntityMgr->GetEntityFromID(telegram.Receiver);
 
-    cout << "\nQueued telegram ready for dispatch: Sent to " 
-         << GetNameOfEntity(pReceiver->ID()) << ". Msg is " << MsgToStr(telegram.Msg);
+    CoutSafe.PrintThreadSafe("Queued telegram ready for dispatch: Sent to ",
+        GetNameOfEntity(pReceiver->ID()),
+        ". Msg is ",
+        MsgToStr(telegram.Msg),
+        TextColor());
 
     //send the telegram to the recipient
     Discharge(pReceiver, telegram);
@@ -135,6 +164,17 @@ void MessageDispatcher::DispatchDelayedMessages()
     //remove it from the queue
     PriorityQ.erase(PriorityQ.begin());
   }
+}
+
+void MessageDispatcher::PrintSafeHandleConfirmation(BaseGameEntity* entity)
+{
+
+    CoutSafe.PrintThreadSafe(
+        ": Message handled by ",
+        GetNameOfEntity(entity->ID()),
+        " at time :",
+        Clock->GetCurrentTime(),
+        TextColor());
 }
 
 

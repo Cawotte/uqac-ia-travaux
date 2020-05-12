@@ -9,7 +9,6 @@ bool Alcoholic::HandleMessage(const Telegram& msg)
 
 void Alcoholic::Update()
 {
-    SetTextColor(FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
     m_pStateMachine->Update();
 }

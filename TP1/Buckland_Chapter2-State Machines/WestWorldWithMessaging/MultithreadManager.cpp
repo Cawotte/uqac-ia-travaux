@@ -6,9 +6,8 @@
 //print thread-safe
 #include "ConsoleUtilsThreadSafe.h"
 
-void MultithreadManager::StartThread(BaseGameEntity* entity, int nbIterations)
+void MultithreadManager::StartThread(BaseGameEntity* entity, const int nbIterations, const int sleepTime)
 {
-	int nbThreads = m_entities.size();
 
 	for (int i = 0; i < nbIterations; i++)
 	{
@@ -23,7 +22,7 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, int nbIterations)
 		//ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Increment counter : ", m_countFinishedUpdate);
 
 		//If all entities have finished their update loop
-		if (m_countFinishedUpdate >= nbThreads)
+		if (m_countFinishedUpdate >= m_entities.size())
 		{
 			//reset the counter
 			m_countFinishedUpdate = 0;
@@ -31,7 +30,10 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, int nbIterations)
 			//Global event that must happen once per Update Loop after all Updates
 			MessageDispatcher::Instance()->DispatchDelayedMessages();
 
-			//Sleep(100);
+			if (sleepTime > 0)
+			{
+				Sleep(sleepTime);
+			}
 
 			//unlock all threads
 			ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Notify All! #", (i + 1));
@@ -41,6 +43,7 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, int nbIterations)
 		else 
 		{
 			//wait for the last thread to finish
+
 			//ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Wait for Notify");
 			m_cv.wait(lock_cv); //the lock is automatically released here
 		}
@@ -55,7 +58,7 @@ void MultithreadManager::PrintThreadSafe(T&& ... args)
 	(std::cout << ... << std::forward<T>(args)) << std::endl;
 } */
 
-void MultithreadManager::RunMultithreadAgents(int nbIterations)
+void MultithreadManager::RunAllEntitiesOnThreads(const int nbIterations, const int sleepTime)
 {
 	//Make and run a thread for all entities.
 
@@ -66,9 +69,9 @@ void MultithreadManager::RunMultithreadAgents(int nbIterations)
 	for (auto& entity : m_entities)
 	{
 		//Start an entity on its own thread
-		threads.emplace_back([&entity, &nbIterations, this]() 
+		threads.emplace_back([&entity, &nbIterations, &sleepTime, this]() 
 		{
-			StartThread(entity, nbIterations);
+			StartThread(entity, nbIterations, sleepTime);
 		});
 	}
 

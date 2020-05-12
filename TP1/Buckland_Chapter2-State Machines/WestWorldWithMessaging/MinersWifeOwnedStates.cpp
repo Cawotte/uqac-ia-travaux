@@ -158,7 +158,6 @@ void CookStew::Enter(MinersWife* wife)
   if (!wife->Cooking())
   {
     wife->PrintThreadSafe(": Putting the stew in the oven");
-    //cout << "\n" << GetNameOfEntity(wife->ID()) << ": Putting the stew in the oven";
   
     //send a delayed message myself so that I know when to take the stew
     //out of the oven
@@ -176,55 +175,41 @@ void CookStew::Enter(MinersWife* wife)
 void CookStew::Execute(MinersWife* wife)
 {
     wife->PrintThreadSafe(": Fussin' over food");
-  //cout << "\n" << GetNameOfEntity(wife->ID()) << ": Fussin' over food";
 }
 
 void CookStew::Exit(MinersWife* wife)
 {
-  //SetTextColor(FOREGROUND_GREEN|FOREGROUND_INTENSITY);
-
     wife->PrintThreadSafe(": Puttin' the stew on the table");
-  //cout << "\n" << GetNameOfEntity(wife->ID()) << ": Puttin' the stew on the table";
 }
 
 
 bool CookStew::OnMessage(MinersWife* wife, const Telegram& msg)
 {
-  //SetTextColor(BACKGROUND_RED|FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
 
-  switch(msg.Msg)
-  {
-    case Msg_StewReady:
+    switch(msg.Msg)
     {
-      //cout << "\nMessage received by " << GetNameOfEntity(wife->ID()) <<
-      //     " at time: " << Clock->GetCurrentTime();
+        case Msg_StewReady:
+        {
 
-        Dispatch->PrintSafeHandleConfirmation(wife);
-      /*CoutSafe.PrintThreadSafe(
-          ": Message received by ",
-          GetNameOfEntity(wife->ID()),
-          "at time :",
-          Clock->GetCurrentTime(),
-          BACKGROUND_RED | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);*/
-      wife->PrintThreadSafe(": StewReady!Lets eat");
-     // SetTextColor(FOREGROUND_GREEN|FOREGROUND_INTENSITY);
-      //cout << "\n" << GetNameOfEntity(wife->ID()) << ": StewReady! Lets eat";
+            Dispatch->PrintSafeHandleConfirmation(wife);
 
-      //let hubby know the stew is ready
-      Dispatch->DispatchMessage(SEND_MSG_IMMEDIATELY,
-                                wife->ID(),
-                                ent_Miner_Bob,
-                                Msg_StewReady,
-                                NO_ADDITIONAL_INFO);
+            wife->PrintThreadSafe(": StewReady! Let's eat");
 
-      wife->SetCooking(false);
+            //let hubby know the stew is ready
+            Dispatch->DispatchMessage(SEND_MSG_IMMEDIATELY,
+                                    wife->ID(),
+                                    ent_Miner_Bob,
+                                    Msg_StewReady,
+                                    NO_ADDITIONAL_INFO);
 
-      wife->GetFSM()->ChangeState(DoHouseWork::Instance());               
-    }
+            wife->SetCooking(false);
 
-    return true;
+            wife->GetFSM()->ChangeState(DoHouseWork::Instance());               
+        }
 
-  }//end switch
+        return true;
 
-  return false;
+    }//end switch
+
+    return false;
 }

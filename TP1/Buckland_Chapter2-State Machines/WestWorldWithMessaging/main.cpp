@@ -15,8 +15,10 @@
 
 std::ofstream os;
 
-bool const USE_MULTITHREADING = true;
-int const NB_ITERATIONS = 30;
+// ----- VARIABLES  -------
+bool		const USE_MULTITHREADING	= true;
+int			const NB_ITERATIONS			= 30;
+int			const UPDATE_SLEEP_TIME		= 800;
 
 int main()
 {
@@ -55,12 +57,12 @@ int main()
 		multithreadManager.RegisterEntity(elsa.get());
 		multithreadManager.RegisterEntity(alcoholic.get());
 
-		multithreadManager.RunMultithreadAgents(NB_ITERATIONS);
+		//Run threads and wait until they are all finished
+		multithreadManager.RunAllEntitiesOnThreads(NB_ITERATIONS, UPDATE_SLEEP_TIME);
 	}
 	else
 	{
 
-		//The agents will be run in the thread, we keep them synchronized here.
 		for (int i = 0; i < NB_ITERATIONS; ++i)
 		{
 			bob->Update();
@@ -70,7 +72,12 @@ int main()
 			//dispatch any delayed messages
 			Dispatch->DispatchDelayedMessages();
 
-			Sleep(500);
+			//CoutSafe.PrintThreadSafe("Loop #", i + 1);
+
+			if (UPDATE_SLEEP_TIME > 0)
+			{
+				Sleep(UPDATE_SLEEP_TIME);
+			}
 		}
 	}
 

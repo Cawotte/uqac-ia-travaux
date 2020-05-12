@@ -12,6 +12,7 @@
 #include <string>
 
 #include "messaging/Telegram.h"
+#include "ConsoleUtilsThreadSafe.h"
 
 
 class BaseGameEntity
@@ -49,6 +50,30 @@ public:
   virtual bool  HandleMessage(const Telegram& msg)=0;
 
   int           ID()const{return m_ID;}  
+
+  //Text color associated to the Entity
+  virtual WORD  TextColor() const;
+
+  //Thread safe print
+  template <typename T>
+  void PrintThreadSafe(T&& arg)
+  {
+      CoutSafe.PrintThreadSafe(
+          GetNameOfEntity(ID()),
+          arg,
+          TextColor());
+  }
+
+  template <typename T, typename T2>
+  void PrintThreadSafe(T&& arg1, T2&& arg2)
+  {
+      CoutSafe.PrintThreadSafe(
+          GetNameOfEntity(ID()),
+          arg1,
+          arg2,
+          TextColor());
+  }
+
 };
 
 

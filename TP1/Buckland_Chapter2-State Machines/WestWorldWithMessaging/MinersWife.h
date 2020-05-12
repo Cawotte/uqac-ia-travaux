@@ -62,6 +62,9 @@ public:
 
   StateMachine<MinersWife>* GetFSM()const{return m_pStateMachine;}
 
+  //Text color for wife
+  WORD          TextColor() const override { return FOREGROUND_GREEN | FOREGROUND_INTENSITY; };
+
   //----------------------------------------------------accessors
   location_type Location()const{return m_Location;}
   void          ChangeLocation(location_type loc){m_Location=loc;}

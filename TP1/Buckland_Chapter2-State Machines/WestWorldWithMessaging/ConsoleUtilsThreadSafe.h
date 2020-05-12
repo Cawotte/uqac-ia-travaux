@@ -14,6 +14,9 @@
 //
 //------------------------------------------------------------------------
 
+//provide easy access
+#define CoutSafe ConsoleUtilsThreadSafe::Instance()
+
 class ConsoleUtilsThreadSafe
 {
 private:

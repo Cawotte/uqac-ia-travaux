@@ -39,21 +39,16 @@ void WifesGlobalState::Execute(MinersWife* wife)
 
 bool WifesGlobalState::OnMessage(MinersWife* wife, const Telegram& msg)
 {
-  SetTextColor(BACKGROUND_RED|FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
 
   switch(msg.Msg)
   {
   case Msg_HiHoneyImHome:
    {
-       cout << "\nMessage handled by " << GetNameOfEntity(wife->ID()) << " at time: " 
-       << Clock->GetCurrentTime();
+        Dispatch->PrintSafeHandleConfirmation(wife);
 
-     SetTextColor(FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+        wife->PrintThreadSafe(": Hi honey. Let me make you some of mah fine country stew");
 
-     cout << "\n" << GetNameOfEntity(wife->ID()) << 
-          ": Hi honey. Let me make you some of mah fine country stew";
-
-     wife->GetFSM()->ChangeState(CookStew::Instance());
+        wife->GetFSM()->ChangeState(CookStew::Instance());
    }
 
    return true;
@@ -75,7 +70,7 @@ DoHouseWork* DoHouseWork::Instance()
 
 void DoHouseWork::Enter(MinersWife* wife)
 {
-  cout << "\n" << GetNameOfEntity(wife->ID()) << ": Time to do some more housework!";
+    wife->PrintThreadSafe(": Time to do some more housework!");
 }
 
 
@@ -85,19 +80,19 @@ void DoHouseWork::Execute(MinersWife* wife)
   {
   case 0:
 
-    cout << "\n" << GetNameOfEntity(wife->ID()) << ": Moppin' the floor";
+      wife->PrintThreadSafe(": Moppin' the floor");
 
     break;
 
   case 1:
 
-    cout << "\n" << GetNameOfEntity(wife->ID()) << ": Washin' the dishes";
+      wife->PrintThreadSafe(": Washin' the dishes");
 
     break;
 
   case 2:
 
-    cout << "\n" << GetNameOfEntity(wife->ID()) << ": Makin' the bed";
+      wife->PrintThreadSafe(": Makin' the bed");
 
     break;
   }
@@ -123,21 +118,21 @@ VisitBathroom* VisitBathroom::Instance()
 
 
 void VisitBathroom::Enter(MinersWife* wife)
-{  
-  cout << "\n" << GetNameOfEntity(wife->ID()) << ": Walkin' to the can. Need to powda mah pretty li'lle nose"; 
+{
+    wife->PrintThreadSafe(": Walkin' to the can. Need to powda mah pretty li'lle nose");
 }
 
 
 void VisitBathroom::Execute(MinersWife* wife)
 {
-  cout << "\n" << GetNameOfEntity(wife->ID()) << ": Ahhhhhh! Sweet relief!";
+    wife->PrintThreadSafe(": Ahhhhhh! Sweet relief!");
 
-  wife->GetFSM()->RevertToPreviousState();
+    wife->GetFSM()->RevertToPreviousState();
 }
 
 void VisitBathroom::Exit(MinersWife* wife)
 {
-  cout << "\n" << GetNameOfEntity(wife->ID()) << ": Leavin' the Jon";
+    wife->PrintThreadSafe(": Leavin' the Jon");
 }
 
 
@@ -162,7 +157,8 @@ void CookStew::Enter(MinersWife* wife)
   //if not already cooking put the stew in the oven
   if (!wife->Cooking())
   {
-    cout << "\n" << GetNameOfEntity(wife->ID()) << ": Putting the stew in the oven";
+    wife->PrintThreadSafe(": Putting the stew in the oven");
+    //cout << "\n" << GetNameOfEntity(wife->ID()) << ": Putting the stew in the oven";
   
     //send a delayed message myself so that I know when to take the stew
     //out of the oven
@@ -179,30 +175,40 @@ void CookStew::Enter(MinersWife* wife)
 
 void CookStew::Execute(MinersWife* wife)
 {
-  cout << "\n" << GetNameOfEntity(wife->ID()) << ": Fussin' over food";
+    wife->PrintThreadSafe(": Fussin' over food");
+  //cout << "\n" << GetNameOfEntity(wife->ID()) << ": Fussin' over food";
 }
 
 void CookStew::Exit(MinersWife* wife)
 {
-  SetTextColor(FOREGROUND_GREEN|FOREGROUND_INTENSITY);
-  
-  cout << "\n" << GetNameOfEntity(wife->ID()) << ": Puttin' the stew on the table";
+  //SetTextColor(FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+
+    wife->PrintThreadSafe(": Puttin' the stew on the table");
+  //cout << "\n" << GetNameOfEntity(wife->ID()) << ": Puttin' the stew on the table";
 }
 
 
 bool CookStew::OnMessage(MinersWife* wife, const Telegram& msg)
 {
-  SetTextColor(BACKGROUND_RED|FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
+  //SetTextColor(BACKGROUND_RED|FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
 
   switch(msg.Msg)
   {
     case Msg_StewReady:
     {
-      cout << "\nMessage received by " << GetNameOfEntity(wife->ID()) <<
-           " at time: " << Clock->GetCurrentTime();
+      //cout << "\nMessage received by " << GetNameOfEntity(wife->ID()) <<
+      //     " at time: " << Clock->GetCurrentTime();
 
-      SetTextColor(FOREGROUND_GREEN|FOREGROUND_INTENSITY);
-      cout << "\n" << GetNameOfEntity(wife->ID()) << ": StewReady! Lets eat";
+        Dispatch->PrintSafeHandleConfirmation(wife);
+      /*CoutSafe.PrintThreadSafe(
+          ": Message received by ",
+          GetNameOfEntity(wife->ID()),
+          "at time :",
+          Clock->GetCurrentTime(),
+          BACKGROUND_RED | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);*/
+      wife->PrintThreadSafe(": StewReady!Lets eat");
+     // SetTextColor(FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+      //cout << "\n" << GetNameOfEntity(wife->ID()) << ": StewReady! Lets eat";
 
       //let hubby know the stew is ready
       Dispatch->DispatchMessage(SEND_MSG_IMMEDIATELY,

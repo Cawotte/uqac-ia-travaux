@@ -34,7 +34,7 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, int nbIterations)
 			//Sleep(100);
 
 			//unlock all threads
-			//ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Notify All! #", (i + 1));
+			ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Notify All! #", (i + 1));
 			m_cv.notify_all(); 
 			
 		}

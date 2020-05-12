@@ -11,13 +11,12 @@
 //------------------------------------------------------------------------
 #include <string>
 #include <cassert>
-#include <iostream>
 
 #include "BaseGameEntity.h"
 #include "Locations.h"
-#include "misc/ConsoleUtils.h"
 #include "MinerOwnedStates.h"
 #include "fsm/StateMachine.h"
+#include "ConsoleUtilsThreadSafe.h"
 
 template <class entity_type> class State;
 struct Telegram;
@@ -53,6 +52,8 @@ private:
   //the higher the value, the more tired the miner
   int                   m_iFatigue;
 
+
+
 public:
 
   Miner(int id):m_Location(shack),
@@ -82,8 +83,13 @@ public:
   
   StateMachine<Miner>* GetFSM()const{return m_pStateMachine;}
 
+  // --- const word
 
+  //Text color for miner
+  WORD          TextColor() const override { return FOREGROUND_RED | FOREGROUND_INTENSITY; } ;
   
+  
+
   //-------------------------------------------------------------accessors
   location_type Location()const{return m_Location;}
   void          ChangeLocation(location_type loc){m_Location=loc;}

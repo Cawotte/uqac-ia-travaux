@@ -36,14 +36,6 @@ private:
 	//Start a separate thread on which to run entity's update for nbIter loops.
 	void StartThread(BaseGameEntity* entity, int nbIterations);
 
-	/*
-	//A thread-safe cout
-	template <typename T>
-	void PrintThreadSafe(T&& arg);
-
-	//A thread-safe cout
-	template <typename T, typename T2>
-	void PrintThreadSafe(T&& arg1, T2&& arg2); */
 
 public:
 

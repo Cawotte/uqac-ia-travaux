@@ -15,11 +15,10 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, const int nbIterati
 
 		//When the entity has finished its update, increment the counter to
 		//inform it has finished.
-		//To avoid concurrent access, the next block is locked.
+		//To avoid concurrent access, the next block is thread-safe locked.
 
 		std::unique_lock<std::mutex> lock_cv(m_mtx);
 		m_countFinishedUpdate++;
-		//ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Increment counter : ", m_countFinishedUpdate);
 
 		//If all entities have finished their update loop
 		if (m_countFinishedUpdate >= m_entities.size())
@@ -36,7 +35,7 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, const int nbIterati
 			}
 
 			//unlock all threads
-			ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Notify All! #", (i + 1));
+			//CoutSafe.PrintThreadSafe("Loop #", i + 1);
 			m_cv.notify_all(); 
 			
 		}
@@ -44,13 +43,13 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, const int nbIterati
 		{
 			//wait for the last thread to finish
 
-			//ConsoleUtilsThreadSafe::Instance().PrintThreadSafe(" Wait for Notify");
 			m_cv.wait(lock_cv); //the lock is automatically released here
 		}
 	}
 }
 
 /*
+//Work with C++17 online
 template <typename ... T>
 void MultithreadManager::PrintThreadSafe(T&& ... args)
 {

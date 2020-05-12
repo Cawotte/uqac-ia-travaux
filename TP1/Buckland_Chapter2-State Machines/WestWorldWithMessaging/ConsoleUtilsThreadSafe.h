@@ -35,20 +35,13 @@ private:
 	ConsoleUtilsThreadSafe(const ConsoleUtilsThreadSafe&) = delete;
 	ConsoleUtilsThreadSafe& operator=(const ConsoleUtilsThreadSafe&) = delete;
 
-	//default text colors can be found in wincon.h
-	inline void SetTextColor(WORD colors)
-	{
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-		SetConsoleTextAttribute(hConsole, colors);
-	}
+	//Change color of the text in the cmd
+	void SetTextColor(WORD colors);
 
 public:
 
 	//Singleton pattern
 	static ConsoleUtilsThreadSafe& Instance();
-
-
 
 	//Thread-safe couts
 

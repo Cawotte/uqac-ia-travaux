@@ -3,7 +3,6 @@
 #include <windows.h>
 
 
-
 int BaseGameEntity::m_iNextValidID = 0;
 
 
@@ -24,7 +23,6 @@ void BaseGameEntity::SetID(int val)
     
   m_iNextValidID = m_ID + 1;
 }
-
 
 WORD BaseGameEntity::TextColor() const {
     return FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_GREEN;

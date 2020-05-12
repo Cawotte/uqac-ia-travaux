@@ -9,4 +9,10 @@ ConsoleUtilsThreadSafe& ConsoleUtilsThreadSafe::Instance()
 	return instance;
 }
 
+void ConsoleUtilsThreadSafe::SetTextColor(WORD colors)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	SetConsoleTextAttribute(hConsole, colors);
+}
 

@@ -52,9 +52,9 @@ public:
   int           ID()const{return m_ID;}  
 
   //Text color associated to the Entity
-  virtual WORD  TextColor() const;
+  virtual WORD TextColor() const;
 
-  //Thread safe print
+  //Thread safe print to cout, with entity's name and text color
   template <typename T>
   void PrintThreadSafe(T&& arg)
   {
@@ -64,6 +64,8 @@ public:
           TextColor());
   }
 
+  
+  //Thread safe print to cout, with entity's name and text color
   template <typename T, typename T2>
   void PrintThreadSafe(T&& arg1, T2&& arg2)
   {

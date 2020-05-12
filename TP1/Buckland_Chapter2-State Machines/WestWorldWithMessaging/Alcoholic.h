@@ -57,10 +57,6 @@ public:
 
     virtual bool  HandleMessage(const Telegram& msg);
 
-
-    //Text color for wife
-    WORD          TextColor() const override { return FOREGROUND_BLUE | FOREGROUND_INTENSITY; };
-
     //-------------------------------------------------------------accessors
 
     
@@ -74,6 +70,9 @@ public:
 
     void    SoberUp() { m_iDrunkeness = 0; }
     void    DrinkBeer() { m_iDrunkeness += 1; }
+
+    //Text color for alcoholic
+    WORD    TextColor() const override { return FOREGROUND_BLUE | FOREGROUND_INTENSITY; };
 };
 
 

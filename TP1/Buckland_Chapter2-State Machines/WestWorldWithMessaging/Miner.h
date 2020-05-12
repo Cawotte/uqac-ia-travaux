@@ -82,12 +82,6 @@ public:
 
   
   StateMachine<Miner>* GetFSM()const{return m_pStateMachine;}
-
-  // --- const word
-
-  //Text color for miner
-  WORD          TextColor() const override { return FOREGROUND_RED | FOREGROUND_INTENSITY; } ;
-  
   
 
   //-------------------------------------------------------------accessors
@@ -109,6 +103,9 @@ public:
 
   bool          Thirsty()const; 
   void          BuyAndDrinkAWhiskey(){m_iThirst = 0; m_iMoneyInBank-=2;}
+
+  //Text color for miner
+  WORD          TextColor() const override { return FOREGROUND_RED | FOREGROUND_INTENSITY; };
 
 };
 

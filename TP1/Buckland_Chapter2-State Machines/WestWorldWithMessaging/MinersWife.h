@@ -62,8 +62,6 @@ public:
 
   StateMachine<MinersWife>* GetFSM()const{return m_pStateMachine;}
 
-  //Text color for wife
-  WORD          TextColor() const override { return FOREGROUND_GREEN | FOREGROUND_INTENSITY; };
 
   //----------------------------------------------------accessors
   location_type Location()const{return m_Location;}
@@ -71,6 +69,9 @@ public:
 
   bool          Cooking()const{return m_bCooking;}
   void          SetCooking(bool val){m_bCooking = val;}
+
+  //Text color for wife
+  WORD          TextColor() const override { return FOREGROUND_GREEN | FOREGROUND_INTENSITY; };
    
 };
 

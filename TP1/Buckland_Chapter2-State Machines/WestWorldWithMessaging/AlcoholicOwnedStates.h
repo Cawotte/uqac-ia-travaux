@@ -28,6 +28,9 @@ class DrinkBeer : public State<Alcoholic>
 private:
 	DrinkBeer() {}
 
+    //Private for singleton pattern
+    DrinkBeer(const DrinkBeer&);
+    DrinkBeer& operator=(const DrinkBeer&);
 public:
 
     //singleton
@@ -55,6 +58,9 @@ class Drunk : public State<Alcoholic>
 private:
     Drunk() {}
 
+    //Private for singleton pattern
+    Drunk(const Drunk&);
+    Drunk& operator=(const Drunk&);
 public:
 
     //singleton
@@ -81,6 +87,9 @@ class FightWithTheMiner : public State<Alcoholic>
 private:
     FightWithTheMiner() {}
 
+    //Private for singleton pattern
+    FightWithTheMiner(const FightWithTheMiner&);
+    FightWithTheMiner& operator=(const FightWithTheMiner&);
 public:
 
     //singleton

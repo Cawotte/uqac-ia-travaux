@@ -36,7 +36,6 @@ private:
 	//Start a separate thread on which to run entity's update for nbIter loops.
 	void StartThread(BaseGameEntity* entity, const int nbIterations, const int sleepTime);
 
-
 public:
 
 	//Start a separate thread for each registered entities, and manage them.

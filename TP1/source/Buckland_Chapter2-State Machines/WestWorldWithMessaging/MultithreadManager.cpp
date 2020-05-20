@@ -48,15 +48,6 @@ void MultithreadManager::StartThread(BaseGameEntity* entity, const int nbIterati
 	}
 }
 
-/*
-//Work with C++17 online
-template <typename ... T>
-void MultithreadManager::PrintThreadSafe(T&& ... args)
-{
-	std::lock_guard<std::mutex> lock(m_mtx_cmd);
-	(std::cout << ... << std::forward<T>(args)) << std::endl;
-} */
-
 void MultithreadManager::RunAllEntitiesOnThreads(const int nbIterations, const int sleepTime)
 {
 	//Make and run a thread for all entities.

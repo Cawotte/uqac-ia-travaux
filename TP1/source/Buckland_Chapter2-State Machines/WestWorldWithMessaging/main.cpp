@@ -16,7 +16,7 @@
 std::ofstream os;
 
 // ----- VARIABLES  -------
-bool		const USE_MULTITHREADING	= false;
+bool		const USE_MULTITHREADING	= true;
 bool        const ASK_STARTING_STATE    = true;
 int			const NB_ITERATIONS			= 30;
 int			const UPDATE_SLEEP_TIME		= 800;
@@ -58,6 +58,7 @@ int main()
 	if (USE_MULTITHREADING)
 	{
 
+        std::cout << "\nExecution IS multithreaded." << std::endl;
 		// --------- Multithreading
 		MultithreadManager multithreadManager;
 
@@ -71,6 +72,7 @@ int main()
 	else
 	{
 
+        std::cout << "\nExecution is NOT multithreaded." << std::endl;
 		for (int i = 0; i < NB_ITERATIONS; ++i)
 		{
 			bob->Update();

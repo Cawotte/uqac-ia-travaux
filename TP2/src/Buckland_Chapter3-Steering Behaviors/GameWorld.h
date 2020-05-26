@@ -80,7 +80,8 @@ private:
 
 	void CreateWalls();
 
-
+	//Add the vehicle to the vehicle list and collisions matrix, and give it a random pos
+	void AddVehicle(Vehicle* pVehicle);
 
 public:
 

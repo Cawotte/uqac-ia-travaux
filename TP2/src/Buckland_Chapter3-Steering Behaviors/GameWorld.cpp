@@ -55,13 +55,8 @@ GameWorld::GameWorld(int cx, int cy) :
 	for (int a = 0; a < Prm.NumAgents; ++a)
 	{
 
-		//determine a random starting position
-		Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
-			cy / 2.0 + RandomClamped() * cy / 2.0);
-
-
 		Vehicle* pVehicle = new Vehicle(this,
-			SpawnPos,                 //initial position
+			Vector2D(0, 0),                 //initial position
 			RandFloat() * TwoPi,        //start rotation
 			Vector2D(0, 0),            //velocity
 			Prm.VehicleMass,          //mass
@@ -72,46 +67,31 @@ GameWorld::GameWorld(int cx, int cy) :
 
 		pVehicle->Steering()->FlockingOn();
 
-		m_Vehicles.push_back(pVehicle);
-
-		//add it to the cell subdivision
-		m_pCellSpace->AddEntity(pVehicle);
+		AddVehicle(pVehicle);
 	}
 
 	//Add Leader
 
-	Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
-		cy / 2.0 + RandomClamped() * cy / 2.0);
-
 	Leader* pLeader = new Leader(this,
-		SpawnPos,                 //initial position
+		Vector2D(0, 0),                 //initial position
 		RandFloat() * TwoPi,        //start rotation
 		Vector2D(0, 0));       
 
-	m_Vehicles.push_back(pLeader);
-	m_pCellSpace->AddEntity(pLeader);
+	AddVehicle(pLeader);
 
 	//Add pursuers
 	int nbPursuers = 20;
 	for (int i = 0; i < nbPursuers; i++)
 	{
-		SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
-			cy / 2.0 + RandomClamped() * cy / 2.0);
-
-		//Vehicle* previousVehicle = m_Vehicles.back();
 
 		Pursuer* pPursuer = new Pursuer(this,
-			SpawnPos,                 //initial position
+			Vector2D(0, 0),                 //initial position
 			RandFloat() * TwoPi,        //start rotation
 			Vector2D(0, 0),			
-			pLeader
+			m_Vehicles.back()
 		);    
 
-		//pPursuer->SetMaxSpeed(pPursuer->MaxSpeed() * (1.f + i * 1.f));
-
-
-		m_Vehicles.push_back(pPursuer);
-		m_pCellSpace->AddEntity(pPursuer);
+		AddVehicle(pPursuer);
 	}
 
 	/*
@@ -209,6 +189,19 @@ void GameWorld::CreateWalls()
 	}
 
 	m_Walls.push_back(Wall2D(walls[NumWallVerts - 1], walls[0]));
+}
+
+void GameWorld::AddVehicle(Vehicle* pVehicle)
+{
+	Vector2D SpawnPos = Vector2D(m_cxClient / 2.0 + RandomClamped() * m_cxClient / 2.0,
+		m_cyClient / 2.0 + RandomClamped() * m_cyClient / 2.0);
+
+	pVehicle->SetPos(SpawnPos);
+
+	m_Vehicles.push_back(pVehicle);
+
+	//add it to the cell subdivision
+	m_pCellSpace->AddEntity(pVehicle);
 }
 
 

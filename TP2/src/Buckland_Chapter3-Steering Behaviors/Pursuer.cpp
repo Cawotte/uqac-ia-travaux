@@ -23,6 +23,6 @@ Pursuer::Pursuer(
 
 	//Offset is relative to pursued agent
 	Vector2D offsetBehind(-10.f, 0.0f); //behind agent
-	offsetBehind *= 2.f;
+	offsetBehind *= 0.1f;
 	Steering()->OffsetPursuitOn(toPursue, offsetBehind);
 }

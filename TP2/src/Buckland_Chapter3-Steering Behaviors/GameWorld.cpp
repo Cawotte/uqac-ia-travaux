@@ -12,6 +12,9 @@
 #include "misc/WindowUtils.h"
 #include "misc/Stream_Utility_Functions.h"
 
+#include "Leader.h"
+#include "Pursuer.h"
+
 
 #include "resource.h"
 
@@ -75,7 +78,43 @@ GameWorld::GameWorld(int cx, int cy) :
 		m_pCellSpace->AddEntity(pVehicle);
 	}
 
+	//Add Leader
 
+	Vector2D SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
+		cy / 2.0 + RandomClamped() * cy / 2.0);
+
+	Leader* pLeader = new Leader(this,
+		SpawnPos,                 //initial position
+		RandFloat() * TwoPi,        //start rotation
+		Vector2D(0, 0));       
+
+	m_Vehicles.push_back(pLeader);
+	m_pCellSpace->AddEntity(pLeader);
+
+	//Add pursuers
+	int nbPursuers = 20;
+	for (int i = 0; i < nbPursuers; i++)
+	{
+		SpawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0,
+			cy / 2.0 + RandomClamped() * cy / 2.0);
+
+		//Vehicle* previousVehicle = m_Vehicles.back();
+
+		Pursuer* pPursuer = new Pursuer(this,
+			SpawnPos,                 //initial position
+			RandFloat() * TwoPi,        //start rotation
+			Vector2D(0, 0),			
+			pLeader
+		);    
+
+		//pPursuer->SetMaxSpeed(pPursuer->MaxSpeed() * (1.f + i * 1.f));
+
+
+		m_Vehicles.push_back(pPursuer);
+		m_pCellSpace->AddEntity(pPursuer);
+	}
+
+	/*
 #define SHOAL
 #ifdef SHOAL
 	m_Vehicles[Prm.NumAgents - 1]->Steering()->FlockingOff();
@@ -90,6 +129,7 @@ GameWorld::GameWorld(int cx, int cy) :
 
 	}
 #endif
+	*/
 
 	//create any obstacles or walls
 	//CreateObstacles();

@@ -139,10 +139,12 @@
     <ClCompile Include="..\Common\misc\WindowUtils.cpp" />
     <ClCompile Include="..\Common\Time\PrecisionTimer.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Leader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="ParamLoader.cpp" />
     <ClCompile Include="Path.cpp" />
+    <ClCompile Include="Pursuer.cpp" />
     <ClCompile Include="SteeringBehaviors.cpp" />
     <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
@@ -165,10 +167,12 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="EntityFunctionTemplates.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="Leader.h" />
     <ClInclude Include="MovingEntity.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="ParamLoader.h" />
     <ClInclude Include="Path.h" />
+    <ClInclude Include="Pursuer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SteeringBehaviors.h" />
     <ClInclude Include="Vehicle.h" />

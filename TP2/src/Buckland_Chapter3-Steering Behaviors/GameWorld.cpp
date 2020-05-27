@@ -75,7 +75,8 @@ GameWorld::GameWorld(int cx, int cy) :
 	Leader* pLeader = new Leader(this,
 		Vector2D(0, 0),                 //initial position
 		RandFloat() * TwoPi,        //start rotation
-		Vector2D(0, 0));       
+		Vector2D(0, 0),
+		true);       
 
 	AddVehicle(pLeader);
 

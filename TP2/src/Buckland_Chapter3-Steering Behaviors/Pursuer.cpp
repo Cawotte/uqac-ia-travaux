@@ -13,9 +13,9 @@ Pursuer::Pursuer(
 							rotation,
 							velocity,           //velocity
 							Prm.VehicleMass,          //mass
-							Prm.MaxSteeringForce * 100.f,     //max force
+							Prm.MaxSteeringForce,     //max force
 							Prm.MaxSpeed,             //max velocity
-							Prm.MaxTurnRatePerSecond * 100.f, //max turn rate
+							Prm.MaxTurnRatePerSecond, //max turn rate
 							Prm.VehicleScale * 1.3f)
 {
 	Steering()->FlockingOff();
@@ -23,6 +23,7 @@ Pursuer::Pursuer(
 
 	//Offset is relative to pursued agent
 	Vector2D offsetBehind(-10.f, 0.0f); //behind agent
-	offsetBehind *= 0.1f;
+	offsetBehind *= 0.5f;
 	Steering()->OffsetPursuitOn(toPursue, offsetBehind);
+	//Steering()->PursuitOn(toPursue);
 }

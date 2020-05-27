@@ -21,6 +21,7 @@ char* g_szWindowClassName = "MyWindowClass";
 
 GameWorld* g_GameWorld;
 
+bool b_mouseIsHeldDown = false;
 
 //---------------------------- WindowProc ---------------------------------
 //	
@@ -98,13 +99,29 @@ LRESULT CALLBACK WindowProc(HWND   hwnd,
 	break;
 
 
-	case WM_LBUTTONUP:
+	case WM_LBUTTONDOWN:
 	{
 		g_GameWorld->SetCrosshair(MAKEPOINTS(lParam));
+		b_mouseIsHeldDown = true;
+	}
+	break;
+
+	case WM_LBUTTONUP:
+	{
+		b_mouseIsHeldDown = false;
 	}
 
 	break;
 
+	case WM_MOUSEMOVE:
+	{
+		//Move the crosshair if the mouse is held down
+		if (b_mouseIsHeldDown)
+		{
+			g_GameWorld->SetCrosshair(MAKEPOINTS(lParam));
+		}
+	}
+	break;
 	case WM_KEYUP:
 	{
 		switch (wParam)

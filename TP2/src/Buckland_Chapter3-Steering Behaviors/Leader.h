@@ -5,13 +5,17 @@
 
 class Leader : public Vehicle
 {
+private:
+
+	bool m_bIsPlayerControlled;
 
 public:
 
 	Leader(GameWorld* world,
 		Vector2D position,
 		double    rotation,
-		Vector2D velocity);
+		Vector2D velocity,
+		bool isPlayerControlled);
 
 };
 

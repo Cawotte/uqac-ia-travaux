@@ -53,7 +53,7 @@ SteeringBehavior::SteeringBehavior(Vehicle* agent) :
 	m_dWeightEvade(Prm.EvadeWeight),
 	m_dWeightFollowPath(Prm.FollowPathWeight),
 	m_bCellSpaceOn(false),
-	m_SummingMethod(prioritized)
+	m_SummingMethod(weighted_average)
 
 
 {

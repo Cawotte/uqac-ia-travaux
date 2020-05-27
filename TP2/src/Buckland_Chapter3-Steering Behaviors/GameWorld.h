@@ -38,6 +38,12 @@ private:
 	//a container of all the moving entities
 	std::vector<Vehicle*>         m_Vehicles;
 
+
+	//a container for all agent following a leader
+	std::vector<Vehicle*>         m_Pursuers;
+
+	Vehicle* m_pLeader;
+
 	//any obstacles
 	std::vector<BaseGameEntity*>  m_Obstacles;
 

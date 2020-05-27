@@ -79,20 +79,44 @@ GameWorld::GameWorld(int cx, int cy) :
 		true);       
 
 	AddVehicle(pLeader);
+	m_pLeader = pLeader;
 
 	//Add pursuers
 	int nbPursuers = 20;
 	for (int i = 0; i < nbPursuers; i++)
 	{
+		Vector2D offsetPursuit;
+		Vehicle* toPursue;
+
+		bool pursuitBehind = false;
+
+		if (pursuitBehind)
+		{
+			offsetPursuit = Vector2D(-10.f, 0.f); //behind
+			toPursue = m_Vehicles.back();
+		}
+		else
+		{
+			double radius = 35.f;
+			double rad = -pi + i * (TwoPi / nbPursuers);
+			offsetPursuit = Vector2D(cos(rad), sin(rad)) * radius;
+
+			toPursue = pLeader;
+		}
+
+		//Around
+
 
 		Pursuer* pPursuer = new Pursuer(this,
 			Vector2D(0, 0),                 //initial position
 			RandFloat() * TwoPi,        //start rotation
 			Vector2D(0, 0),			
-			m_Vehicles.back()
+			toPursue,
+			offsetPursuit
 		);    
 
 		AddVehicle(pPursuer);
+		m_Pursuers.push_back(pPursuer);
 	}
 
 	/*

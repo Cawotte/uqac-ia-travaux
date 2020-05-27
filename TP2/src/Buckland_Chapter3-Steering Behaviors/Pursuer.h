@@ -10,13 +10,16 @@ private:
 
 	Vehicle* m_pToPursue;
 
+	Vector2D m_offsetPursuit;
+
 public:
 
 	Pursuer(GameWorld* world, 
 		Vector2D position,
 		double    rotation,
 		Vector2D velocity,
-		Vehicle* toPursue);
+		Vehicle* toPursue,
+		Vector2D m_offsetPursuit);
 };
 
 #endif

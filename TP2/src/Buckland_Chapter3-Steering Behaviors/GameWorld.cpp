@@ -595,6 +595,24 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 
 	break;
 
+	case IDL_LEADER_CONTROLLED:
+	{
+		ChangeMenuState(hwnd, IDL_LEADER_WANDER, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, IDL_LEADER_CONTROLLED, MFS_CHECKED);
+
+		m_pLeader->SetIsPlayerControlled(true);
+	}
+	break;
+
+	case IDL_LEADER_WANDER:
+	{
+		ChangeMenuState(hwnd, IDL_LEADER_WANDER, MFS_CHECKED);
+		ChangeMenuState(hwnd, IDL_LEADER_CONTROLLED, MFS_UNCHECKED);
+
+		m_pLeader->SetIsPlayerControlled(false);
+	}
+	break;
+
 	}//end switch
 }
 

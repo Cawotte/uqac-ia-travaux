@@ -53,6 +53,11 @@ BEGIN
     BEGIN
         MENUITEM "On/Off",                      ID_MENU_SMOOTHING
     END
+    POPUP "Leader"
+    BEGIN                   
+        MENUITEM "Wander",                      IDL_LEADER_WANDER
+        MENUITEM "Follow Cursor",               IDL_LEADER_CONTROLLED
+    END
 END
 
 

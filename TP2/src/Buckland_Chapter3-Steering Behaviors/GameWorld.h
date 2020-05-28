@@ -26,7 +26,9 @@
 class Obstacle;
 class Wall2D;
 class Path;
+
 class Pursuer;
+class Leader;
 
 typedef std::vector<BaseGameEntity*>::iterator  ObIt;
 
@@ -42,7 +44,7 @@ private:
 	//a container for all agent following a leader
 	std::vector<Pursuer*>         m_Pursuers;
 
-	Vehicle* m_pLeader;
+	Leader* m_pLeader;
 
 	//any obstacles
 	std::vector<BaseGameEntity*>  m_Obstacles;

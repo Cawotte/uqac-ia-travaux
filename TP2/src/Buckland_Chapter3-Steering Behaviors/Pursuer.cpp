@@ -16,9 +16,9 @@ Pursuer::Pursuer(
 							velocity,           //velocity
 							Prm.VehicleMass,          //mass
 							Prm.MaxSteeringForce,     //max force
-							Prm.MaxSpeed,             //max velocity
+							Prm.MaxSpeed * 1.2f,             //max velocity
 							Prm.MaxTurnRatePerSecond, //max turn rate
-							Prm.VehicleScale * 1.3f),
+							Prm.VehicleScale * 1.1f),
 							m_offsetPursuit(offsetPursuit)
 {
 	Steering()->FlockingOff();

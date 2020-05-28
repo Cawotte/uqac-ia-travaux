@@ -22,11 +22,15 @@ class ParamLoader : public iniFileLoaderBase
 private:
   
     ParamLoader():iniFileLoaderBase("params.ini")
-  {
+    {
     NumAgents               = GetNextParameterInt();
+    NumAgentsPursuers       = GetNextParameterInt();
     NumObstacles            = GetNextParameterInt();
     MinObstacleRadius       = GetNextParameterFloat();
     MaxObstacleRadius       = GetNextParameterFloat();
+
+    PursuerFollowGap        = GetNextParameterFloat();
+    PursuerSurroundRadius   = GetNextParameterFloat();
 
     NumCellsX               = GetNextParameterInt();
     NumCellsY               = GetNextParameterInt();
@@ -79,9 +83,14 @@ public:
   static ParamLoader* Instance();
 
   int	NumAgents;
+  int   NumAgentsPursuers;
   int	NumObstacles;
   double MinObstacleRadius;
   double MaxObstacleRadius;
+
+  //Pursuers settings
+  double PursuerFollowGap;
+  double PursuerSurroundRadius;
 
   //number of horizontal cells used for spatial partitioning
   int   NumCellsX;

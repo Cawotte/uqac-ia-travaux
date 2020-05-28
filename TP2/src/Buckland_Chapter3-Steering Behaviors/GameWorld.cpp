@@ -46,12 +46,24 @@ GameWorld::GameWorld(int cx, int cy) :
 {
 
 	//setup the spatial subdivision class
-	m_pCellSpace = new CellSpacePartition<Vehicle*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
+	m_pCellSpace = new CellSpacePartition<Vehicle*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents + Prm.NumAgentsPursuers + 1);
 
 	double border = 30;
 	m_pPath = new Path(5, border, border, cx - border, cy - border, true);
 
-	//setup the agents
+	//Setup the Agents -------
+
+	//Leader
+	Leader* pLeader = new Leader(this,
+		Vector2D(0, 0),                 //initial position
+		RandFloat() * TwoPi,        //start rotation
+		Vector2D(0, 0),
+		true);
+
+	AddVehicle(pLeader);
+	m_pLeader = pLeader;
+
+	//Flocking normal agents
 	for (int a = 0; a < Prm.NumAgents; ++a)
 	{
 
@@ -67,45 +79,17 @@ GameWorld::GameWorld(int cx, int cy) :
 
 		pVehicle->Steering()->FlockingOn();
 
+		//Avoid the Leader
+		pVehicle->Steering()->EvadeOn(m_pLeader);
+
 		AddVehicle(pVehicle);
 	}
 
-	//Add Leader
-
-	Leader* pLeader = new Leader(this,
-		Vector2D(0, 0),                 //initial position
-		RandFloat() * TwoPi,        //start rotation
-		Vector2D(0, 0),
-		true);       
-
-	AddVehicle(pLeader);
-	m_pLeader = pLeader;
-
-	//Add pursuers
-	int nbPursuers = 20;
-	for (int i = 0; i < nbPursuers; i++)
+	//Pursuers
+	for (int i = 0; i < Prm.NumAgentsPursuers; i++)
 	{
-		Vector2D offsetPursuit;
-		Vehicle* toPursue;
-
-		bool pursuitBehind = false;
-
-		if (pursuitBehind)
-		{
-			offsetPursuit = Vector2D(-10.f, 0.f); //behind
-			toPursue = m_Vehicles.back();
-		}
-		else
-		{
-			double radius = 35.f;
-			double rad = -pi + i * (TwoPi / nbPursuers);
-			offsetPursuit = Vector2D(cos(rad), sin(rad)) * radius;
-
-			toPursue = pLeader;
-		}
-
-		//Around
-
+		Vector2D offsetPursuit = Vector2D(-1.f, 0.f) * Prm.PursuerFollowGap; //behind
+		Vehicle* toPursue = m_Vehicles.back();
 
 		Pursuer* pPursuer = new Pursuer(this,
 			Vector2D(0, 0),                 //initial position
@@ -120,22 +104,8 @@ GameWorld::GameWorld(int cx, int cy) :
 		m_Pursuers.push_back(pPursuer);
 	}
 
-	/*
-#define SHOAL
-#ifdef SHOAL
-	m_Vehicles[Prm.NumAgents - 1]->Steering()->FlockingOff();
-	m_Vehicles[Prm.NumAgents - 1]->SetScale(Vector2D(10, 10));
-	m_Vehicles[Prm.NumAgents - 1]->Steering()->WanderOn();
-	m_Vehicles[Prm.NumAgents - 1]->SetMaxSpeed(70);
-
-
-	for (int i = 0; i < Prm.NumAgents - 1; ++i)
-	{
-		m_Vehicles[i]->Steering()->EvadeOn(m_Vehicles[Prm.NumAgents - 1]);
-
-	}
-#endif
-	*/
+	//Pursuers circle the leaders
+	SetPursuersToSurround();
 
 	//create any obstacles or walls
 	//CreateObstacles();
@@ -236,7 +206,7 @@ void GameWorld::SetPursuersToFollow()
 
 	for (auto pursuer : m_Pursuers)
 	{
-		Vector2D offsetPursuit = Vector2D(-10.f, 0.f); //behind
+		Vector2D offsetPursuit = Vector2D(-1.f, 0.f) * Prm.PursuerFollowGap; //behind
 
 		pursuer->Steering()->OffsetPursuitOn(previousVehicle, offsetPursuit);
 
@@ -246,13 +216,12 @@ void GameWorld::SetPursuersToFollow()
 
 void GameWorld::SetPursuersToSurround()
 {
-	int radius = 35.f;
 
 	for (int i = 0; i < m_Pursuers.size(); i++)
 	{
 
 		double rad = -pi + i * (TwoPi / m_Pursuers.size());
-		Vector2D offsetPursuit = Vector2D(cos(rad), sin(rad)) * radius;
+		Vector2D offsetPursuit = Vector2D(cos(rad), sin(rad)) * Prm.PursuerSurroundRadius;
 
 		m_Pursuers[i]->Steering()->OffsetPursuitOn(m_pLeader, offsetPursuit);
 	}

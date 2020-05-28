@@ -14,7 +14,7 @@ Leader::Leader(GameWorld* world,
 											velocity,           //velocity
 											Prm.VehicleMass,          //mass
 											Prm.MaxSteeringForce,     //max force
-											Prm.MaxSpeed * 0.6f,             //max velocity
+											Prm.MaxSpeed * 0.75f,             //max velocity
 											Prm.MaxTurnRatePerSecond, //max turn rate
 											Prm.VehicleScale * 3.f),
 											m_bIsPlayerControlled(isPlayerControlled)

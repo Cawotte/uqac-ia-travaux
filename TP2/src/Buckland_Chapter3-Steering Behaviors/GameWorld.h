@@ -26,7 +26,7 @@
 class Obstacle;
 class Wall2D;
 class Path;
-
+class Pursuer;
 
 typedef std::vector<BaseGameEntity*>::iterator  ObIt;
 
@@ -40,7 +40,7 @@ private:
 
 
 	//a container for all agent following a leader
-	std::vector<Vehicle*>         m_Pursuers;
+	std::vector<Pursuer*>         m_Pursuers;
 
 	Vehicle* m_pLeader;
 
@@ -88,6 +88,10 @@ private:
 
 	//Add the vehicle to the vehicle list and collisions matrix, and give it a random pos
 	void AddVehicle(Vehicle* pVehicle);
+
+	void SetPursuersToFollow();
+
+	void SetPursuersToSurround();
 
 public:
 

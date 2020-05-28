@@ -116,6 +116,7 @@ GameWorld::GameWorld(int cx, int cy) :
 		);    
 
 		AddVehicle(pPursuer);
+
 		m_Pursuers.push_back(pPursuer);
 	}
 
@@ -227,6 +228,34 @@ void GameWorld::AddVehicle(Vehicle* pVehicle)
 
 	//add it to the cell subdivision
 	m_pCellSpace->AddEntity(pVehicle);
+}
+
+void GameWorld::SetPursuersToFollow()
+{
+	Vehicle* previousVehicle = m_pLeader;
+
+	for (auto pursuer : m_Pursuers)
+	{
+		Vector2D offsetPursuit = Vector2D(-10.f, 0.f); //behind
+
+		pursuer->Steering()->OffsetPursuitOn(previousVehicle, offsetPursuit);
+
+		previousVehicle = pursuer; //Next pursuer will follow current pursuer
+	}
+}
+
+void GameWorld::SetPursuersToSurround()
+{
+	int radius = 35.f;
+
+	for (int i = 0; i < m_Pursuers.size(); i++)
+	{
+
+		double rad = -pi + i * (TwoPi / m_Pursuers.size());
+		Vector2D offsetPursuit = Vector2D(cos(rad), sin(rad)) * radius;
+
+		m_Pursuers[i]->Steering()->OffsetPursuitOn(m_pLeader, offsetPursuit);
+	}
 }
 
 

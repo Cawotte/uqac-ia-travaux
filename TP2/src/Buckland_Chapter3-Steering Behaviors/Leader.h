@@ -17,6 +17,9 @@ public:
 		Vector2D velocity,
 		bool isPlayerControlled);
 
+	void SetIsPlayerControlled(bool isPlayerControlled);
+
+	bool IsPlayerControlled() { return m_bIsPlayerControlled; }
 };
 
 #endif

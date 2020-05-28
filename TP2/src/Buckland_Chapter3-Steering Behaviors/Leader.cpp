@@ -32,3 +32,23 @@ Leader::Leader(GameWorld* world,
 		Steering()->WanderOn();
 	}
 }
+
+void Leader::SetIsPlayerControlled(bool isPlayerControlled)
+{
+
+	m_bIsPlayerControlled = isPlayerControlled;
+
+	if (m_bIsPlayerControlled)
+	{
+		//Disable wandering and enable player control
+		Steering()->WanderOff();
+		Steering()->ArriveOn();
+	}
+	else
+	{
+		//Disable player control and enable wandering
+		Steering()->ArriveOff();
+		Steering()->WanderOn();
+	}
+
+}

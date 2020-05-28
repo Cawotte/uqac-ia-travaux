@@ -38,7 +38,7 @@ BEGIN
         MENUITEM "On/Off",                      IDR_PARTITIONING
         MENUITEM "View Neighbors",              IDM_PARTITION_VIEW_NEIGHBORS
     END
-    POPUP "Calculate Method"
+    POPUP "Calc. Methods"
     BEGIN
         MENUITEM "Weighted Sum",                IDR_WEIGHTED_SUM
         MENUITEM "Prioritized",                 IDR_PRIORITIZED
@@ -54,9 +54,14 @@ BEGIN
         MENUITEM "On/Off",                      ID_MENU_SMOOTHING
     END
     POPUP "Leader"
-    BEGIN                   
-        MENUITEM "Wander",                      IDL_LEADER_WANDER
+    BEGIN
         MENUITEM "Follow Cursor",               IDL_LEADER_CONTROLLED
+        MENUITEM "Wander",                      IDL_LEADER_WANDER
+    END
+    POPUP "Pursuers"
+    BEGIN
+        MENUITEM "Surround Leader",             IDP_PURSUERS_SURROUND
+        MENUITEM "Follow Leader",               IDP_PURSUERS_FOLLOW
     END
 END
 

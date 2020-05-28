@@ -613,6 +613,24 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 	}
 	break;
 
+	case IDP_PURSUERS_FOLLOW:
+	{
+		ChangeMenuState(hwnd, IDP_PURSUERS_SURROUND, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, IDP_PURSUERS_FOLLOW, MFS_CHECKED);
+
+		SetPursuersToFollow();
+	}
+	break;
+
+	case IDP_PURSUERS_SURROUND:
+	{
+		ChangeMenuState(hwnd, IDP_PURSUERS_SURROUND, MFS_CHECKED);
+		ChangeMenuState(hwnd, IDP_PURSUERS_FOLLOW, MFS_UNCHECKED);
+
+		SetPursuersToSurround();
+	}
+	break;
+
 	}//end switch
 }
 

@@ -86,7 +86,9 @@ LRESULT CALLBACK WindowProc(HWND   hwnd,
 
 		ChangeMenuState(hwnd, IDR_WEIGHTED_SUM, MFS_CHECKED);
 		ChangeMenuState(hwnd, ID_VIEW_FPS, MFS_CHECKED);
+
 		ChangeMenuState(hwnd, IDL_LEADER_CONTROLLED, MFS_CHECKED);
+		ChangeMenuState(hwnd, IDP_PURSUERS_SURROUND, MFS_CHECKED);
 
 	}
 

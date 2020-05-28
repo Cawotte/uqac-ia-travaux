@@ -3,6 +3,7 @@
 #include "SteeringBehaviors.h"
 #include "ParamLoader.h"
 
+
 Pursuer::Pursuer(
 	GameWorld* world, 
 	Vector2D position,
@@ -25,4 +26,11 @@ Pursuer::Pursuer(
 
 	//Offset is relative to pursued agent
 	Steering()->OffsetPursuitOn(toPursue, offsetPursuit);
+}
+
+
+
+void Pursuer::UseDefaultColor()
+{
+	gdi->OrangePen();
 }

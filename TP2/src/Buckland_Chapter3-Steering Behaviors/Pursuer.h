@@ -3,6 +3,8 @@
 
 #include "Vehicle.h"
 
+#include <misc\Cgdi.h>
+
 class Pursuer : public Vehicle
 {
 
@@ -20,6 +22,9 @@ public:
 		Vector2D velocity,
 		Vehicle* toPursue,
 		Vector2D m_offsetPursuit);
+
+
+	void UseDefaultColor() override;
 };
 
 #endif

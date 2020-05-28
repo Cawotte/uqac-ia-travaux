@@ -131,7 +131,7 @@ void Vehicle::Render()
 
 	else
 	{
-		gdi->BluePen();
+		UseDefaultColor();
 	}
 
 	if (Steering()->isInterposeOn())
@@ -170,6 +170,11 @@ void Vehicle::Render()
 	{
 		Steering()->RenderAids();
 	}
+}
+
+void Vehicle::UseDefaultColor()
+{
+	gdi->BluePen();
 }
 
 

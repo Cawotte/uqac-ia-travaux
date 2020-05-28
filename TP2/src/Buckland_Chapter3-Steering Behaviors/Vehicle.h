@@ -97,7 +97,8 @@ public:
   void        ToggleSmoothing(){m_bSmoothingOn = !m_bSmoothingOn;}
   
   double       TimeElapsed()const{return m_dTimeElapsed;}
- 
+
+  void virtual  UseDefaultColor();
 };
 
 

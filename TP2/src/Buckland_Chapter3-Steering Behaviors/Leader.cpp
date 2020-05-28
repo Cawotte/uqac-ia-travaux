@@ -2,6 +2,7 @@
 
 #include "SteeringBehaviors.h"
 #include "ParamLoader.h"
+#include <misc\Cgdi.h>
 
 Leader::Leader(GameWorld* world, 
 				Vector2D position, 
@@ -51,4 +52,9 @@ void Leader::SetIsPlayerControlled(bool isPlayerControlled)
 		Steering()->WanderOn();
 	}
 
+}
+
+void Leader::UseDefaultColor()
+{
+	gdi->RedPen();
 }

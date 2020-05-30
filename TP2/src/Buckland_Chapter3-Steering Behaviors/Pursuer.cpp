@@ -21,7 +21,7 @@ Pursuer::Pursuer(
 							Prm.VehicleScale * 1.1f),
 							m_offsetPursuit(offsetPursuit)
 {
-	Steering()->FlockingOff();
+	Steering()->FlockingOn();
 	Steering()->SeparationOn();
 
 	//Offset is relative to pursued agent

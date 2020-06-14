@@ -10,9 +10,16 @@ class Raven_Team
 {
 private:
 
+	//Hack for team colors
+	static int teamCount;
+
+	int m_teamID;
+
 	std::vector<Raven_Bot*> m_vecTeamMembers;
 
 	Raven_Bot* m_pTeamLeader;
+
+	void GetTeamColor(int teamID);
 
 public:
 
@@ -30,6 +37,8 @@ public:
 
 	//Remove the bot from the team. Return true if successful, false if it wasn't in the team.
 	void RemoveFromTeam(Raven_Bot* const bot);
+
+	void UseTeamColor();
 
 	//Set a new leader, but the old stay in the team.
 	Raven_Bot* SetLeader(Raven_Bot* newLeader) { 

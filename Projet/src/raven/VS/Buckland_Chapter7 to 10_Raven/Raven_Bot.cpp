@@ -282,6 +282,18 @@ bool Raven_Bot::HandleMessage(const Telegram& msg)
 	}
 }
 
+void Raven_Bot::UseBotColor()
+{
+	if (!hasTeam())
+	{
+		gdi->BrownBrush();
+	}
+	else
+	{
+		GetTeam()->UseTeamColor();
+	}
+}
+
 //------------------ RotateFacingTowardPosition -------------------------------
 //
 //  given a target position, this method rotates the bot's facing vector
@@ -537,7 +549,7 @@ void Raven_Bot::Render()
 	gdi->ClosedShape(m_vecBotVBTrans);
 
 	//draw the head
-	gdi->BrownBrush();
+	UseBotColor();
 	gdi->Circle(Pos(), 6.0 * Scale().x);
 
 

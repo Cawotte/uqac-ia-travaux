@@ -138,6 +138,8 @@ public:
   void         Write(std::ostream&  os)const{/*not implemented*/}
   void         Read (std::ifstream& is){/*not implemented*/}
 
+  void         UseBotColor();
+
   //this rotates the bot's heading until it is facing directly at the target
   //position. Returns false if not facing at the target.
   bool          RotateFacingTowardPosition(Vector2D target);

@@ -1,12 +1,43 @@
 #include "Raven_Team.h"
 #include "Raven_Bot.h"
-
+#include "misc/Cgdi.h"
 #include <algorithm>
+
+//init static
+int Raven_Team::teamCount = 0;
+
+void Raven_Team::GetTeamColor(int teamID)
+{
+	switch (teamID)
+	{
+	case 0:
+		gdi->BlueBrush();
+		break;
+	case 1:
+		gdi->YellowBrush();
+		break;
+	case 2:
+		gdi->GreenBrush();
+		break;
+	case 3:
+		gdi->OrangeBrush();
+		break;
+	case 4:
+		gdi->RedBrush();
+		break;
+	default:
+		gdi->BrownBrush();
+		break;
+	}
+}
 
 Raven_Team::Raven_Team(Raven_Bot* leader) : m_pTeamLeader(leader)
 {
 	//The leader also belong to the team
 	AddToTeam(leader);
+
+	m_teamID = teamCount;
+	teamCount++;
 }
 
 Raven_Team::~Raven_Team()
@@ -16,6 +47,7 @@ Raven_Team::~Raven_Team()
 	{
 		member->SetTeam(NULL);
 	}
+
 }
 
 bool Raven_Team::IsInTeam(Raven_Bot* const bot) const
@@ -48,4 +80,9 @@ void Raven_Team::RemoveFromTeam(Raven_Bot* const bot)
 		bot->SetTeam(NULL);
 	}
 
+}
+
+void Raven_Team::UseTeamColor()
+{
+	GetTeamColor(m_teamID);
 }

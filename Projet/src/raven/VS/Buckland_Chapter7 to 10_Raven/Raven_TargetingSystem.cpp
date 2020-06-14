@@ -31,9 +31,16 @@ void Raven_TargetingSystem::Update()
 		//make sure the bot is alive and that it is not the owner
 		//and not in the same team!
 		if ((*curBot)->isAlive() && (*curBot != m_pOwner)
-			&& !(m_pOwner->AreInSameTeam(*curBot))
+			&& !(m_pOwner->IsInSameTeam(*curBot))
 			)
 		{
+			//If the team has a target, it takes priority over anyone else
+			if (m_pOwner->hasTeam() && m_pOwner->GetTeam()->HasTarget())
+			{
+				m_pCurrentTarget = m_pOwner->GetTeam()->GetTarget();
+				break;
+			}
+
 			double dist = Vec2DDistanceSq((*curBot)->Pos(), m_pOwner->Pos());
 
 			if (dist < ClosestDistSoFar)

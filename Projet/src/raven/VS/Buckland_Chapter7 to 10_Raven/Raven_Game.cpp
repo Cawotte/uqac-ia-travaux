@@ -25,6 +25,7 @@
 
 #include "goals/Goal_Think.h"
 #include "goals/Raven_Goal_Types.h"
+#include <Debug\DebugConsole.h>
 
 
 
@@ -311,31 +312,35 @@ void Raven_Game::AddBolt(Raven_Bot* shooter, Vector2D target)
 
 void Raven_Game::CreateTeam(Raven_Bot* teamLeader, int numMembersToAdd)
 {
+	//If not leader, make sure this is the leader
 	if (teamLeader->hasTeam())
 	{
-		return;
+		teamLeader->GetTeam()->SetLeader(teamLeader);
 		//teamLeader->GetTeam()->RemoveFromTeam(teamLeader);
 
 		//Verify it team is empty and delete it?
 	}
+	else {
 
-	Raven_Team* newTeam = new Raven_Team(teamLeader);
+		Raven_Team* newTeam = new Raven_Team(teamLeader);
 
-	if (numMembersToAdd > 0)
-	{
-		//Create bots to add
-		AddBots(numMembersToAdd);
-
-		//Find and put them into the team
-		auto it = m_Bots.end();
-		//iterate through list from end
-		while (numMembersToAdd > 0)
+		if (numMembersToAdd > 0)
 		{
-			newTeam->AddToTeam(*(--it));
-			numMembersToAdd--;
+			//Create bots to add
+			AddBots(numMembersToAdd);
+
+			//Find and put them into the team
+			auto it = m_Bots.end();
+			//iterate through list from end
+			while (numMembersToAdd > 0)
+			{
+				newTeam->AddToTeam(*(--it));
+				numMembersToAdd--;
+			}
 		}
+		m_vecTeams.push_back(newTeam);
 	}
-	m_vecTeams.push_back(newTeam);
+
 
 }
 
@@ -508,6 +513,21 @@ void Raven_Game::ClickLeftMouseButton(POINTS p)
 {
 	if (m_pSelectedBot && m_pSelectedBot->isPossessed())
 	{
+
+		Raven_Bot* pBot = GetBotAtPosition(POINTStoVector(p));
+
+		//if there is another bot on the clicked position
+		if (pBot)
+		{
+			//Set him as target if it doesn't belong to the team
+			if (!m_pSelectedBot->IsInSameTeam(pBot))
+			{
+
+				debug_con << "New target of the team : Bot " << pBot->ID() << "";
+				m_pSelectedBot->GetTeam()->SetTarget(pBot);
+			}
+		}
+
 		m_pSelectedBot->FireWeapon(POINTStoVector(p));
 	}
 }

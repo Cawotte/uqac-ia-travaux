@@ -15,9 +15,14 @@ private:
 
 	int m_teamID;
 
+	//vector with all members to the team (including leader)
 	std::vector<Raven_Bot*> m_vecTeamMembers;
 
+	//leader of the team
 	Raven_Bot* m_pTeamLeader;
+
+	//Whoever their are, the team wan them DEAD
+	Raven_Bot* m_pTarget;
 
 	void GetTeamColor(int teamID);
 
@@ -41,14 +46,20 @@ public:
 	void UseTeamColor();
 
 	//Set a new leader, but the old stay in the team.
-	Raven_Bot* SetLeader(Raven_Bot* newLeader) { 
+	void SetLeader(Raven_Bot* newLeader) {
 		m_pTeamLeader = newLeader;
 		m_vecTeamMembers.push_back(newLeader);
 	}
 
+	void SetTarget(Raven_Bot* newTarget) {
+		m_pTarget = newTarget;
+	}
+
 	Raven_Bot* GetLeader() const { return m_pTeamLeader; }
+	Raven_Bot* GetTarget() const { return m_pTarget; }
 	int		   GetSize() const { return m_vecTeamMembers.size(); }
 
+	bool	   HasTarget() const { return m_pTarget != NULL;  }
 
 };
 

@@ -209,7 +209,7 @@ public:
   bool          hasTeam() const { return m_pTeam != NULL;  }
 
   //return true if the bots belong to the same team.
-  bool          AreInSameTeam(Raven_Bot* bot) const;
+  bool          IsInSameTeam(Raven_Bot* bot) const;
 
   
   Raven_Game* const                  GetWorld(){return m_pWorld;} 

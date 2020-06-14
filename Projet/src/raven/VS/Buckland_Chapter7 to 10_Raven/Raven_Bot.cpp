@@ -519,7 +519,7 @@ bool Raven_Bot::canStepBackward(Vector2D& PositionOfStep)const
 	return canWalkTo(PositionOfStep);
 }
 
-bool Raven_Bot::AreInSameTeam(Raven_Bot* bot) const
+bool Raven_Bot::IsInSameTeam(Raven_Bot* bot) const
 {
 	return hasTeam() && GetTeam()->IsInTeam(bot);
 }

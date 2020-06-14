@@ -31,7 +31,9 @@ void Raven_Team::GetTeamColor(int teamID)
 	}
 }
 
-Raven_Team::Raven_Team(Raven_Bot* leader) : m_pTeamLeader(leader)
+Raven_Team::Raven_Team(Raven_Bot* leader) : 
+	m_pTeamLeader(leader),
+	m_pTarget(NULL)
 {
 	//The leader also belong to the team
 	AddToTeam(leader);

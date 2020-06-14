@@ -23,7 +23,7 @@
 //------------------------------------------------------------------------
 
 char* g_szApplicationName = "Raven";
-char*	g_szWindowClassName = "MyWindowClass";
+char* g_szWindowClassName = "MyWindowClass";
 
 
 Raven_Game* g_pRaven;
@@ -34,396 +34,396 @@ Raven_Game* g_pRaven;
 //	This is the callback function which handles all the windows messages
 //-------------------------------------------------------------------------
 
-LRESULT CALLBACK WindowProc (HWND   hwnd,
-                             UINT   msg,
-                             WPARAM wParam,
-                             LPARAM lParam)
+LRESULT CALLBACK WindowProc(HWND   hwnd,
+	UINT   msg,
+	WPARAM wParam,
+	LPARAM lParam)
 {
- 
-   //these hold the dimensions of the client window area
-	 static int cxClient, cyClient; 
 
-	 //used to create the back buffer
-   static HDC		hdcBackBuffer;
-   static HBITMAP	hBitmap;
-   static HBITMAP	hOldBitmap;
+	//these hold the dimensions of the client window area
+	static int cxClient, cyClient;
 
-      //to grab filenames
-   static TCHAR   szFileName[MAX_PATH],
-                  szTitleName[MAX_PATH];
+	//used to create the back buffer
+	static HDC		hdcBackBuffer;
+	static HBITMAP	hBitmap;
+	static HBITMAP	hOldBitmap;
+
+	//to grab filenames
+	static TCHAR   szFileName[MAX_PATH],
+		szTitleName[MAX_PATH];
 
 
-    switch (msg)
-    {
-	
+	switch (msg)
+	{
+
 		//A WM_CREATE msg is sent when your application window is first
 		//created
-    case WM_CREATE:
-      {
-         //to get get the size of the client window first we need  to create
-         //a RECT and then ask Windows to fill in our RECT structure with
-         //the client window size. Then we assign to cxClient and cyClient 
-         //accordingly
-			   RECT rect;
+	case WM_CREATE:
+	{
+		//to get get the size of the client window first we need  to create
+		//a RECT and then ask Windows to fill in our RECT structure with
+		//the client window size. Then we assign to cxClient and cyClient 
+		//accordingly
+		RECT rect;
 
-			   GetClientRect(hwnd, &rect);
+		GetClientRect(hwnd, &rect);
 
-			   cxClient = rect.right;
-			   cyClient = rect.bottom;
+		cxClient = rect.right;
+		cyClient = rect.bottom;
 
-         //seed random number generator
-         srand((unsigned) time(NULL));
+		//seed random number generator
+		srand((unsigned)time(NULL));
 
-         
-         //---------------create a surface to render to(backbuffer)
 
-         //create a memory device context
-         hdcBackBuffer = CreateCompatibleDC(NULL);
+		//---------------create a surface to render to(backbuffer)
 
-         //get the DC for the front buffer
-         HDC hdc = GetDC(hwnd);
+		//create a memory device context
+		hdcBackBuffer = CreateCompatibleDC(NULL);
 
-         hBitmap = CreateCompatibleBitmap(hdc,
-                                          cxClient,
-                                          cyClient);
+		//get the DC for the front buffer
+		HDC hdc = GetDC(hwnd);
 
-			  
-         //select the bitmap into the memory device context
-			   hOldBitmap = (HBITMAP)SelectObject(hdcBackBuffer, hBitmap);
+		hBitmap = CreateCompatibleBitmap(hdc,
+			cxClient,
+			cyClient);
 
-         //don't forget to release the DC
-         ReleaseDC(hwnd, hdc);  
-              
-         //create the game
-         g_pRaven = new Raven_Game();
 
-        //make sure the menu items are ticked/unticked accordingly
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_NAVGRAPH, UserOptions->m_bShowGraph);
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_PATH, UserOptions->m_bShowPathOfSelectedBot);
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_IDS, UserOptions->m_bShowBotIDs);
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_QUICK, UserOptions->m_bSmoothPathsQuick);
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_PRECISE, UserOptions->m_bSmoothPathsPrecise);
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_HEALTH, UserOptions->m_bShowBotHealth);
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_TARGET, UserOptions->m_bShowTargetOfSelectedBot);
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_FOV, UserOptions->m_bOnlyShowBotsInTargetsFOV);
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_SCORES, UserOptions->m_bShowScore);
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_GOAL_Q, UserOptions->m_bShowGoalsOfSelectedBot);
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_INDICES, UserOptions->m_bShowNodeIndices);
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_SENSED, UserOptions->m_bShowOpponentsSensedBySelectedBot);
+		//select the bitmap into the memory device context
+		hOldBitmap = (HBITMAP)SelectObject(hdcBackBuffer, hBitmap);
 
-      }
+		//don't forget to release the DC
+		ReleaseDC(hwnd, hdc);
 
-      break;
+		//create the game
+		g_pRaven = new Raven_Game();
 
-    case WM_KEYUP:
-      {
-        switch(wParam)
-        {
-         case VK_ESCAPE:
-          {
-            SendMessage(hwnd, WM_DESTROY, NULL, NULL);
-          }
-          
-          break;
+		//make sure the menu items are ticked/unticked accordingly
+		CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_NAVGRAPH, UserOptions->m_bShowGraph);
+		CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_PATH, UserOptions->m_bShowPathOfSelectedBot);
+		CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_IDS, UserOptions->m_bShowBotIDs);
+		CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_QUICK, UserOptions->m_bSmoothPathsQuick);
+		CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_PRECISE, UserOptions->m_bSmoothPathsPrecise);
+		CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_HEALTH, UserOptions->m_bShowBotHealth);
+		CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_TARGET, UserOptions->m_bShowTargetOfSelectedBot);
+		CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_FOV, UserOptions->m_bOnlyShowBotsInTargetsFOV);
+		CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_SCORES, UserOptions->m_bShowScore);
+		CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_GOAL_Q, UserOptions->m_bShowGoalsOfSelectedBot);
+		CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_INDICES, UserOptions->m_bShowNodeIndices);
+		CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_SENSED, UserOptions->m_bShowOpponentsSensedBySelectedBot);
 
-         case 'P':
+	}
 
-           g_pRaven->TogglePause();
+	break;
 
-           break;
+	case WM_KEYUP:
+	{
+		switch (wParam)
+		{
+		case VK_ESCAPE:
+		{
+			SendMessage(hwnd, WM_DESTROY, NULL, NULL);
+		}
 
-         case '1':
+		break;
 
-           g_pRaven->ChangeWeaponOfPossessedBot(type_blaster);
+		case 'P':
 
-           break;
+			g_pRaven->TogglePause();
 
-         case '2':
+			break;
 
-           g_pRaven->ChangeWeaponOfPossessedBot(type_shotgun);
+		case '1':
 
-           break;
-           
-         case '3':
+			g_pRaven->ChangeWeaponOfPossessedBot(type_blaster);
 
-           g_pRaven->ChangeWeaponOfPossessedBot(type_rocket_launcher);
+			break;
 
-           break;
+		case '2':
 
-         case '4':
+			g_pRaven->ChangeWeaponOfPossessedBot(type_shotgun);
 
-           g_pRaven->ChangeWeaponOfPossessedBot(type_rail_gun);
+			break;
 
-           break;
+		case '3':
 
-         case 'X':
+			g_pRaven->ChangeWeaponOfPossessedBot(type_rocket_launcher);
 
-           g_pRaven->ExorciseAnyPossessedBot();
+			break;
 
-           break;
+		case '4':
 
+			g_pRaven->ChangeWeaponOfPossessedBot(type_rail_gun);
 
-         case VK_UP:
+			break;
 
-           g_pRaven->AddBots(1); break;
+		case 'X':
 
-         case VK_DOWN:
+			g_pRaven->ExorciseAnyPossessedBot();
 
-           g_pRaven->RemoveBot(); break;
-           
+			break;
 
-        }
-      }
 
-      break;
+		case VK_UP:
 
+			g_pRaven->AddBots(1); break;
 
-    case WM_LBUTTONDOWN:
-    {
-      g_pRaven->ClickLeftMouseButton(MAKEPOINTS(lParam));
-    }
-    
-    break;
+		case VK_DOWN:
 
-   case WM_RBUTTONDOWN:
-    {
-      g_pRaven->ClickRightMouseButton(MAKEPOINTS(lParam));
-    }
-    
-    break;
+			g_pRaven->RemoveBot(); break;
 
-    case WM_COMMAND:
-    {
 
-     switch(wParam)
-      {
-      
+		}
+	}
 
-      case IDM_GAME_LOAD:
-          
-          FileOpenDlg(hwnd, szFileName, szTitleName, "Raven map file (*.map)", "map");
+	break;
 
-          debug_con << "Filename: " << szTitleName << "";
 
-          if (strlen(szTitleName) > 0)
-          {
-            g_pRaven->LoadMap(szTitleName);
-          }
+	case WM_LBUTTONDOWN:
+	{
+		g_pRaven->ClickLeftMouseButton(MAKEPOINTS(lParam));
+	}
 
-          break;
+	break;
 
-      case IDM_GAME_ADDBOT:
+	case WM_RBUTTONDOWN:
+	{
+		g_pRaven->ClickRightMouseButton(MAKEPOINTS(lParam));
+	}
 
-          g_pRaven->AddBots(1);
-          
-          break;
+	break;
 
-      case IDM_GAME_REMOVEBOT:
-          
-          g_pRaven->RemoveBot();
+	case WM_COMMAND:
+	{
 
-          break;
+		switch (wParam)
+		{
 
-      case IDM_GAME_PAUSE:
-          
-          g_pRaven->TogglePause();
 
-          break;
+		case IDM_GAME_LOAD:
 
+			FileOpenDlg(hwnd, szFileName, szTitleName, "Raven map file (*.map)", "map");
 
+			debug_con << "Filename: " << szTitleName << "";
 
-      case IDM_NAVIGATION_SHOW_NAVGRAPH:
+			if (strlen(szTitleName) > 0)
+			{
+				g_pRaven->LoadMap(szTitleName);
+			}
 
-        UserOptions->m_bShowGraph = !UserOptions->m_bShowGraph;
+			break;
 
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_NAVGRAPH, UserOptions->m_bShowGraph);
+		case IDM_GAME_ADDBOT:
 
-        break;
-        
-      case IDM_NAVIGATION_SHOW_PATH:
+			g_pRaven->AddBots(1);
 
-        UserOptions->m_bShowPathOfSelectedBot = !UserOptions->m_bShowPathOfSelectedBot;
+			break;
 
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_PATH, UserOptions->m_bShowPathOfSelectedBot);
+		case IDM_GAME_REMOVEBOT:
 
-        break;
+			g_pRaven->RemoveBot();
 
-      case IDM_NAVIGATION_SHOW_INDICES:
+			break;
 
-        UserOptions->m_bShowNodeIndices = !UserOptions->m_bShowNodeIndices;
+		case IDM_GAME_PAUSE:
 
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_INDICES, UserOptions->m_bShowNodeIndices);
+			g_pRaven->TogglePause();
 
-        break;
+			break;
 
-      case IDM_NAVIGATION_SMOOTH_PATHS_QUICK:
 
-        UserOptions->m_bSmoothPathsQuick = !UserOptions->m_bSmoothPathsQuick;
-        UserOptions->m_bSmoothPathsPrecise = false;
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_PRECISE, UserOptions->m_bSmoothPathsPrecise);
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_QUICK, UserOptions->m_bSmoothPathsQuick);
 
-        break;
+		case IDM_NAVIGATION_SHOW_NAVGRAPH:
 
-      case IDM_NAVIGATION_SMOOTH_PATHS_PRECISE:
+			UserOptions->m_bShowGraph = !UserOptions->m_bShowGraph;
 
-        UserOptions->m_bSmoothPathsPrecise = !UserOptions->m_bSmoothPathsPrecise;
-        UserOptions->m_bSmoothPathsQuick = false;
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_QUICK, UserOptions->m_bSmoothPathsQuick);
-        CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_PRECISE, UserOptions->m_bSmoothPathsPrecise);
+			CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_NAVGRAPH, UserOptions->m_bShowGraph);
 
-        break;
+			break;
 
-      case IDM_BOTS_SHOW_IDS:
+		case IDM_NAVIGATION_SHOW_PATH:
 
-        UserOptions->m_bShowBotIDs = !UserOptions->m_bShowBotIDs;
+			UserOptions->m_bShowPathOfSelectedBot = !UserOptions->m_bShowPathOfSelectedBot;
 
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_IDS, UserOptions->m_bShowBotIDs);
+			CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_PATH, UserOptions->m_bShowPathOfSelectedBot);
 
-        break;
+			break;
 
-      case IDM_BOTS_SHOW_HEALTH:
+		case IDM_NAVIGATION_SHOW_INDICES:
 
-        UserOptions->m_bShowBotHealth = !UserOptions->m_bShowBotHealth;
-        
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_HEALTH, UserOptions->m_bShowBotHealth);
+			UserOptions->m_bShowNodeIndices = !UserOptions->m_bShowNodeIndices;
 
-        break;
+			CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SHOW_INDICES, UserOptions->m_bShowNodeIndices);
 
-      case IDM_BOTS_SHOW_TARGET:
+			break;
 
-        UserOptions->m_bShowTargetOfSelectedBot = !UserOptions->m_bShowTargetOfSelectedBot;
-        
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_TARGET, UserOptions->m_bShowTargetOfSelectedBot);
+		case IDM_NAVIGATION_SMOOTH_PATHS_QUICK:
 
-        break;
+			UserOptions->m_bSmoothPathsQuick = !UserOptions->m_bSmoothPathsQuick;
+			UserOptions->m_bSmoothPathsPrecise = false;
+			CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_PRECISE, UserOptions->m_bSmoothPathsPrecise);
+			CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_QUICK, UserOptions->m_bSmoothPathsQuick);
 
-      case IDM_BOTS_SHOW_SENSED:
+			break;
 
-        UserOptions->m_bShowOpponentsSensedBySelectedBot = !UserOptions->m_bShowOpponentsSensedBySelectedBot;
-        
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_SENSED, UserOptions->m_bShowOpponentsSensedBySelectedBot);
+		case IDM_NAVIGATION_SMOOTH_PATHS_PRECISE:
 
-        break;
+			UserOptions->m_bSmoothPathsPrecise = !UserOptions->m_bSmoothPathsPrecise;
+			UserOptions->m_bSmoothPathsQuick = false;
+			CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_QUICK, UserOptions->m_bSmoothPathsQuick);
+			CheckMenuItemAppropriately(hwnd, IDM_NAVIGATION_SMOOTH_PATHS_PRECISE, UserOptions->m_bSmoothPathsPrecise);
 
+			break;
 
-      case IDM_BOTS_SHOW_FOV:
+		case IDM_BOTS_SHOW_IDS:
 
-        UserOptions->m_bOnlyShowBotsInTargetsFOV = !UserOptions->m_bOnlyShowBotsInTargetsFOV;
-        
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_FOV, UserOptions->m_bOnlyShowBotsInTargetsFOV);
+			UserOptions->m_bShowBotIDs = !UserOptions->m_bShowBotIDs;
 
-        break;
+			CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_IDS, UserOptions->m_bShowBotIDs);
 
-      case IDM_BOTS_SHOW_SCORES:
+			break;
 
-        UserOptions->m_bShowScore = !UserOptions->m_bShowScore;
-        
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_SCORES, UserOptions->m_bShowScore);
+		case IDM_BOTS_SHOW_HEALTH:
 
-        break;
+			UserOptions->m_bShowBotHealth = !UserOptions->m_bShowBotHealth;
 
-      case IDM_BOTS_SHOW_GOAL_Q:
+			CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_HEALTH, UserOptions->m_bShowBotHealth);
 
-        UserOptions->m_bShowGoalsOfSelectedBot = !UserOptions->m_bShowGoalsOfSelectedBot;
-        
-        CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_GOAL_Q, UserOptions->m_bShowGoalsOfSelectedBot);
+			break;
 
-        break;
+		case IDM_BOTS_SHOW_TARGET:
 
-      }//end switch
-    }
+			UserOptions->m_bShowTargetOfSelectedBot = !UserOptions->m_bShowTargetOfSelectedBot;
 
-    
-    case WM_PAINT:
-      {
- 		       
-         PAINTSTRUCT ps;
-          
-         BeginPaint (hwnd, &ps);
+			CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_TARGET, UserOptions->m_bShowTargetOfSelectedBot);
 
-        //fill our backbuffer with white
-         BitBlt(hdcBackBuffer,
-                0,
-                0,
-                cxClient,
-                cyClient,
-                NULL,
-                NULL,
-                NULL,
-                WHITENESS);
-          
-         
-         gdi->StartDrawing(hdcBackBuffer);
+			break;
 
-         g_pRaven->Render();
+		case IDM_BOTS_SHOW_SENSED:
 
-         gdi->StopDrawing(hdcBackBuffer);
+			UserOptions->m_bShowOpponentsSensedBySelectedBot = !UserOptions->m_bShowOpponentsSensedBySelectedBot;
 
+			CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_SENSED, UserOptions->m_bShowOpponentsSensedBySelectedBot);
 
-         //now blit backbuffer to front
-			   BitBlt(ps.hdc, 0, 0, cxClient, cyClient, hdcBackBuffer, 0, 0, SRCCOPY); 
-          
-         EndPaint (hwnd, &ps);
+			break;
 
-      }
 
-      break;
+		case IDM_BOTS_SHOW_FOV:
 
-    //has the user resized the client area?
-		case WM_SIZE:
-		  {
-        //if so we need to update our variables so that any drawing
-        //we do using cxClient and cyClient is scaled accordingly
-			  cxClient = LOWORD(lParam);
-			  cyClient = HIWORD(lParam);
+			UserOptions->m_bOnlyShowBotsInTargetsFOV = !UserOptions->m_bOnlyShowBotsInTargetsFOV;
 
-        //now to resize the backbuffer accordingly. First select
-        //the old bitmap back into the DC
-			  SelectObject(hdcBackBuffer, hOldBitmap);
+			CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_FOV, UserOptions->m_bOnlyShowBotsInTargetsFOV);
 
-        //don't forget to do this or you will get resource leaks
-        DeleteObject(hBitmap); 
+			break;
 
-			  //get the DC for the application
-        HDC hdc = GetDC(hwnd);
+		case IDM_BOTS_SHOW_SCORES:
 
-			  //create another bitmap of the same size and mode
-        //as the application
-        hBitmap = CreateCompatibleBitmap(hdc,
-											  cxClient,
-											  cyClient);
+			UserOptions->m_bShowScore = !UserOptions->m_bShowScore;
 
-			  ReleaseDC(hwnd, hdc);
-			  
-			  //select the new bitmap into the DC
-        SelectObject(hdcBackBuffer, hBitmap);
+			CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_SCORES, UserOptions->m_bShowScore);
 
-      }
+			break;
 
-      break;
-          
-		 case WM_DESTROY:
-			 {
+		case IDM_BOTS_SHOW_GOAL_Q:
 
-         //clean up our backbuffer objects
-         SelectObject(hdcBackBuffer, hOldBitmap);
+			UserOptions->m_bShowGoalsOfSelectedBot = !UserOptions->m_bShowGoalsOfSelectedBot;
 
-         DeleteDC(hdcBackBuffer);
-         DeleteObject(hBitmap); 
-         
+			CheckMenuItemAppropriately(hwnd, IDM_BOTS_SHOW_GOAL_Q, UserOptions->m_bShowGoalsOfSelectedBot);
 
-         // kill the application, this sends a WM_QUIT message  
-				 PostQuitMessage (0);
-			 }
+			break;
 
-       break;
+		}//end switch
+	}
 
-     }//end switch
 
-     //this is where all the messages not specifically handled by our 
-		 //winproc are sent to be processed
-		 return DefWindowProc (hwnd, msg, wParam, lParam);
+	case WM_PAINT:
+	{
+
+		PAINTSTRUCT ps;
+
+		BeginPaint(hwnd, &ps);
+
+		//fill our backbuffer with white
+		BitBlt(hdcBackBuffer,
+			0,
+			0,
+			cxClient,
+			cyClient,
+			NULL,
+			NULL,
+			NULL,
+			WHITENESS);
+
+
+		gdi->StartDrawing(hdcBackBuffer);
+
+		g_pRaven->Render();
+
+		gdi->StopDrawing(hdcBackBuffer);
+
+
+		//now blit backbuffer to front
+		BitBlt(ps.hdc, 0, 0, cxClient, cyClient, hdcBackBuffer, 0, 0, SRCCOPY);
+
+		EndPaint(hwnd, &ps);
+
+	}
+
+	break;
+
+	//has the user resized the client area?
+	case WM_SIZE:
+	{
+		//if so we need to update our variables so that any drawing
+		//we do using cxClient and cyClient is scaled accordingly
+		cxClient = LOWORD(lParam);
+		cyClient = HIWORD(lParam);
+
+		//now to resize the backbuffer accordingly. First select
+		//the old bitmap back into the DC
+		SelectObject(hdcBackBuffer, hOldBitmap);
+
+		//don't forget to do this or you will get resource leaks
+		DeleteObject(hBitmap);
+
+		//get the DC for the application
+		HDC hdc = GetDC(hwnd);
+
+		//create another bitmap of the same size and mode
+  //as the application
+		hBitmap = CreateCompatibleBitmap(hdc,
+			cxClient,
+			cyClient);
+
+		ReleaseDC(hwnd, hdc);
+
+		//select the new bitmap into the DC
+		SelectObject(hdcBackBuffer, hBitmap);
+
+	}
+
+	break;
+
+	case WM_DESTROY:
+	{
+
+		//clean up our backbuffer objects
+		SelectObject(hdcBackBuffer, hOldBitmap);
+
+		DeleteDC(hdcBackBuffer);
+		DeleteObject(hBitmap);
+
+
+		// kill the application, this sends a WM_QUIT message  
+		PostQuitMessage(0);
+	}
+
+	break;
+
+	}//end switch
+
+	//this is where all the messages not specifically handled by our 
+		//winproc are sent to be processed
+	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 
@@ -431,123 +431,123 @@ LRESULT CALLBACK WindowProc (HWND   hwnd,
 //
 //	The entry point of the windows program
 //------------------------------------------------------------------------
-int WINAPI WinMain (HINSTANCE hInstance,
-                    HINSTANCE hPrevInstance,
-                    LPSTR     szCmdLine, 
-                    int       iCmdShow)
+int WINAPI WinMain(HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,
+	LPSTR     szCmdLine,
+	int       iCmdShow)
 {
-  MSG msg;
-  //handle to our window
+	MSG msg;
+	//handle to our window
 	HWND						hWnd;
 
- //the window class structure
+	//the window class structure
 	WNDCLASSEX     winclass;
 
-  // first fill in the window class stucture
-	winclass.cbSize        = sizeof(WNDCLASSEX);
-	winclass.style         = CS_HREDRAW | CS_VREDRAW;
-  winclass.lpfnWndProc   = WindowProc;
-  winclass.cbClsExtra    = 0;
-  winclass.cbWndExtra    = 0;
-  winclass.hInstance     = hInstance;
-  winclass.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
-  winclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
-  winclass.hbrBackground = NULL;
-  winclass.lpszMenuName  = MAKEINTRESOURCE(IDR_MENU1);
-  winclass.lpszClassName = g_szWindowClassName;
-	winclass.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
+	// first fill in the window class stucture
+	winclass.cbSize = sizeof(WNDCLASSEX);
+	winclass.style = CS_HREDRAW | CS_VREDRAW;
+	winclass.lpfnWndProc = WindowProc;
+	winclass.cbClsExtra = 0;
+	winclass.cbWndExtra = 0;
+	winclass.hInstance = hInstance;
+	winclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	winclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	winclass.hbrBackground = NULL;
+	winclass.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);
+	winclass.lpszClassName = g_szWindowClassName;
+	winclass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
-  //register the window class
-  if (!RegisterClassEx(&winclass))
-  {
+	//register the window class
+	if (!RegisterClassEx(&winclass))
+	{
 		MessageBox(NULL, "Registration Failed!", "Error", 0);
 
-	  //exit the application
+		//exit the application
 		return 0;
-  }
-		
+	}
 
-  try
-  {  		 
-		 //create the window and assign its ID to hwnd    
-     hWnd = CreateWindowEx (NULL,                 // extended style
-                            g_szWindowClassName,  // window class name
-                            g_szApplicationName,  // window caption
-                            WS_OVERLAPPED | WS_VISIBLE | WS_CAPTION | WS_SYSMENU,  // window style
-                            GetSystemMetrics(SM_CXSCREEN)/2 - WindowWidth/2,
-                            GetSystemMetrics(SM_CYSCREEN)/2 - WindowHeight/2,                    
-                            WindowWidth,     // initial x size
-                            WindowHeight,    // initial y size
-                            NULL,                 // parent window handle
-                            NULL,                 // window menu handle
-                            hInstance,            // program instance handle
-                            NULL);                // creation parameters
 
-     //make sure the window creation has gone OK
-     if(!hWnd)
-     {
-       MessageBox(NULL, "CreateWindowEx Failed!", "Error!", 0);
-     }
+	try
+	{
+		//create the window and assign its ID to hwnd    
+		hWnd = CreateWindowEx(NULL,                 // extended style
+			g_szWindowClassName,  // window class name
+			g_szApplicationName,  // window caption
+			WS_OVERLAPPED | WS_VISIBLE | WS_CAPTION | WS_SYSMENU,  // window style
+			GetSystemMetrics(SM_CXSCREEN) / 2 - WindowWidth / 2,
+			GetSystemMetrics(SM_CYSCREEN) / 2 - WindowHeight / 2,
+			WindowWidth,     // initial x size
+			WindowHeight,    // initial y size
+			NULL,                 // parent window handle
+			NULL,                 // window menu handle
+			hInstance,            // program instance handle
+			NULL);                // creation parameters
 
-     
-    //make the window visible
-    ShowWindow (hWnd, iCmdShow);
-    UpdateWindow (hWnd);
-   
-    //create a timer
-    PrecisionTimer timer(FrameRate);
+//make sure the window creation has gone OK
+		if (!hWnd)
+		{
+			MessageBox(NULL, "CreateWindowEx Failed!", "Error!", 0);
+		}
 
-    //start the timer
-    timer.Start();
 
-    //enter the message loop
-    bool bDone = false;
+		//make the window visible
+		ShowWindow(hWnd, iCmdShow);
+		UpdateWindow(hWnd);
 
-    while(!bDone)
-    {
-      while( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) ) 
-      {
-        if( msg.message == WM_QUIT ) 
-        {
-          // Stop loop if it's a quit message
-	        bDone = true;
-        } 
+		//create a timer
+		PrecisionTimer timer(FrameRate);
 
-        else 
-        {
-          TranslateMessage( &msg );
-          DispatchMessage( &msg );
-        }
-      }
+		//start the timer
+		timer.Start();
 
-      if (timer.ReadyForNextFrame() && msg.message != WM_QUIT)
-      {
-        g_pRaven->Update();
-        
-        //render 
-        RedrawWindow(hWnd);
-      }
+		//enter the message loop
+		bool bDone = false;
 
-      //give the OS a little time
-      Sleep(2);
-     					
-    }//end while
+		while (!bDone)
+		{
+			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+			{
+				if (msg.message == WM_QUIT)
+				{
+					// Stop loop if it's a quit message
+					bDone = true;
+				}
 
-  }//end try block
+				else
+				{
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+				}
+			}
 
-  catch (const std::runtime_error& err)
-  {
-    ErrorBox(std::string(err.what()));
-    //tidy up
-    delete g_pRaven;
-    UnregisterClass( g_szWindowClassName, winclass.hInstance );
-    return 0;
-  }
-  
- //tidy up
- UnregisterClass( g_szWindowClassName, winclass.hInstance );
- delete g_pRaven;
- return msg.wParam;
+			if (timer.ReadyForNextFrame() && msg.message != WM_QUIT)
+			{
+				g_pRaven->Update();
+
+				//render 
+				RedrawWindow(hWnd);
+			}
+
+			//give the OS a little time
+			Sleep(2);
+
+		}//end while
+
+	}//end try block
+
+	catch (const std::runtime_error& err)
+	{
+		ErrorBox(std::string(err.what()));
+		//tidy up
+		delete g_pRaven;
+		UnregisterClass(g_szWindowClassName, winclass.hInstance);
+		return 0;
+	}
+
+	//tidy up
+	UnregisterClass(g_szWindowClassName, winclass.hInstance);
+	delete g_pRaven;
+	return msg.wParam;
 }
 
 

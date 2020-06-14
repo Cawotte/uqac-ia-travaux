@@ -19,6 +19,7 @@
 #include "goals/Raven_Goal_Types.h"
 #include "goals/Goal_Think.h"
 
+#include "Raven_Team.h"
 
 #include "Debug/DebugConsole.h"
 
@@ -46,7 +47,8 @@ Raven_Bot::Raven_Bot(Raven_Game* world, Vector2D pos) :
 	m_iScore(0),
 	m_Status(spawning),
 	m_bPossessed(false),
-	m_dFieldOfView(DegsToRads(script->GetDouble("Bot_FOV")))
+	m_dFieldOfView(DegsToRads(script->GetDouble("Bot_FOV"))),
+	m_pTeam(NULL)
 
 {
 	SetEntityType(type_bot);
@@ -354,6 +356,9 @@ void Raven_Bot::TakePossession()
 		m_bPossessed = true;
 
 		debug_con << "Player Possesses bot " << this->ID() << "";
+
+		//Create a team of bot
+		m_pWorld->CreateTeam(this, 3);
 	}
 }
 //------------------------------- Exorcise ------------------------------------
@@ -385,6 +390,36 @@ void Raven_Bot::ChangeWeapon(unsigned int type)
 void Raven_Bot::FireWeapon(Vector2D pos)
 {
 	m_pWeaponSys->ShootAt(pos);
+}
+
+void Raven_Bot::SetTeam(Raven_Team* team)
+{
+	//Should only be caled by Raven_Team!
+	m_pTeam = team;
+
+	/*
+	//If already has a different team, remove bot from it
+	if (m_pTeam) {
+
+		if (m_pTeam != team)
+		{
+			m_pTeam->RemoveFromTeam(this);
+		}
+		else //Already belong to the same team
+		{
+			return;
+		}
+
+	}
+
+	m_pTeam = team;
+
+	//if the new team isn't null
+	if (team)
+	{
+		m_pTeam->AddToTeam(this);
+	} */
+
 }
 
 //----------------- CalculateExpectedTimeToReachPosition ----------------------
@@ -470,6 +505,11 @@ bool Raven_Bot::canStepBackward(Vector2D& PositionOfStep)const
 	PositionOfStep = Pos() - Facing() * StepDistance - Facing() * BRadius();
 
 	return canWalkTo(PositionOfStep);
+}
+
+bool Raven_Bot::AreInSameTeam(Raven_Bot* bot) const
+{
+	return hasTeam() && GetTeam()->IsInTeam(bot);
 }
 
 //--------------------------- Render -------------------------------------

@@ -28,7 +28,7 @@ class Raven_Bot;
 class Goal_Think;
 class Raven_WeaponSystem;
 class Raven_SensoryMemory;
-
+class Raven_Team;
 
 
 
@@ -45,6 +45,9 @@ private:
 
   //a pointer to the world data
   Raven_Game*                        m_pWorld;
+  
+  //A pointer to the team the bot is belonging, if having one
+  Raven_Team*                        m_pTeam;
 
   //this object handles the arbitration and processing of high level goals
   Goal_Think*                        m_pBrain;
@@ -161,6 +164,8 @@ public:
   void          SetDead(){m_Status = dead;}
   void          SetAlive(){m_Status = alive;}
 
+  void          SetTeam(Raven_Team* team);
+
   //returns a value indicating the time in seconds it will take the bot
   //to reach the given position at its current speed.
   double        CalculateTimeToReachPosition(Vector2D pos)const; 
@@ -199,6 +204,11 @@ public:
   bool          canStepForward(Vector2D& PositionOfStep)const;
   bool          canStepBackward(Vector2D& PositionOfStep)const;
 
+  bool          hasTeam() const { return m_pTeam != NULL;  }
+
+  //return true if the bots belong to the same team.
+  bool          AreInSameTeam(Raven_Bot* bot) const;
+
   
   Raven_Game* const                  GetWorld(){return m_pWorld;} 
   Raven_Steering* const              GetSteering(){return m_pSteering;}
@@ -209,6 +219,8 @@ public:
   Raven_Bot* const                   GetTargetBot()const{return m_pTargSys->GetTarget();}
   Raven_WeaponSystem* const          GetWeaponSys()const{return m_pWeaponSys;}
   Raven_SensoryMemory* const         GetSensoryMem()const{return m_pSensoryMem;}
+
+  Raven_Team* const                  GetTeam() const { return m_pTeam; }
 
 
 };

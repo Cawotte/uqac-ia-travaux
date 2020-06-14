@@ -45,6 +45,8 @@ private:
 	//a list of all the bots that are inhabiting the map
 	std::list<Raven_Bot*>            m_Bots;
 
+	//Teams of bots
+	std::vector<Raven_Team*>		 m_vecTeams;
 
 	//the user may select a bot to control manually. This is a pointer to that
 	//bot
@@ -100,6 +102,9 @@ public:
 	void AddRailGunSlug(Raven_Bot* shooter, Vector2D target);
 	void AddShotGunPellet(Raven_Bot* shooter, Vector2D target);
 	void AddBolt(Raven_Bot* shooter, Vector2D target);
+
+	//Create a team with the given leader, and create and add N bots to it.
+	void CreateTeam(Raven_Bot* teamLeader, int numMembersToAdd);
 
 	//removes the last bot to be added
 	void RemoveBot();
@@ -161,7 +166,7 @@ public:
 	const std::list<Raven_Bot*>& GetAllBots()const { return m_Bots; }
 	PathManager<Raven_PathPlanner>* const    GetPathManager() { return m_pPathManager; }
 	int                                      GetNumBots()const { return m_Bots.size(); }
-
+	std::vector<Raven_Team*>				 GetTeams() const { return m_vecTeams; }
 
 	void  TagRaven_BotsWithinViewRange(BaseGameEntity* pRaven_Bot, double range)
 	{

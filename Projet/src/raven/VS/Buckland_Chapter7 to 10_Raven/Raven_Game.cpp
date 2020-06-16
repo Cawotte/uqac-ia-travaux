@@ -1,4 +1,7 @@
 #include "Raven_Game.h"
+
+#include "Raven_WeaponSystem.h"
+#include "armory/Raven_Weapon.h"
 #include "Raven_ObjectEnumerations.h"
 #include "misc/WindowUtils.h"
 #include "misc/Cgdi.h"
@@ -16,6 +19,7 @@
 #include "messaging/MessageDispatcher.h"
 #include "Raven_Messages.h"
 #include "GraveMarkers.h"
+
 
 #include "armory/Raven_Projectile.h"
 #include "armory/Projectile_Rocket.h"
@@ -166,6 +170,34 @@ void Raven_Game::Update()
 
 			//change its status to spawning
 			(*curBot)->SetSpawning();
+
+			//Spawn his weapon in the team Area if it has a team:
+			if ((*curBot)->hasTeam())
+			{
+				//For each weapon type that can be pickedup
+				unsigned int pickableWeaponsType[] = { type_rail_gun, type_shotgun, type_rocket_launcher };
+				std::vector<unsigned int> weaponsToSpawn;
+
+				//Check if the bot has it
+				for (unsigned int type : pickableWeaponsType)
+				{
+					Raven_Weapon* weapon = (*curBot)->GetWeaponSys()->GetWeaponFromInventory(type);
+
+					//If the bot has the weapon
+					if (weapon)
+					{
+						weaponsToSpawn.push_back(type);
+					}
+
+				}
+
+				//Spawn in team area pickups weapon with those weapons
+				for (auto& const weaponType : weaponsToSpawn)
+				{
+					int nodeIndex = (*curBot)->GetPathPlanner()->GetClosestNodeToPosition((*curBot)->Pos());
+					m_pMap->AddWeapon_Giver(weaponType, (*curBot)->GetTeam()->GetTeamArea()->GetRandomPositionInsideArea(), nodeIndex);
+				}
+			}
 		}
 
 		//if this bot is alive update it.

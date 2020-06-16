@@ -370,7 +370,7 @@ void Raven_Bot::TakePossession()
 		debug_con << "Player Possesses bot " << this->ID() << "";
 
 		//Create a team of bot
-		m_pWorld->CreateTeam(this, 3);
+		m_pWorld->CreateTeam(this, 2);
 	}
 }
 //------------------------------- Exorcise ------------------------------------

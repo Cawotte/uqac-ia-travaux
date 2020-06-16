@@ -49,9 +49,6 @@ private:
   Vector2D                            m_vDestinationPos;
 
 
-  //returns the index of the closest visible and unobstructed graph node to
-  //the given position
-  int   GetClosestNodeToPosition(Vector2D pos)const;
 
   //smooths a path by removing extraneous edges. (may not remove all
   //extraneous edges)
@@ -72,6 +69,10 @@ public:
   ~Raven_PathPlanner();
 
   Raven_PathPlanner(Raven_Bot* owner);
+
+  //returns the index of the closest visible and unobstructed graph node to
+  //the given position
+  int   GetClosestNodeToPosition(Vector2D pos)const;
 
   //creates an instance of the A* time-sliced search and registers it with
   //the path manager

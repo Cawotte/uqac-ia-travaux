@@ -15,9 +15,6 @@ private:
 
 	Raven_Team* m_team;
 
-
-	double fRand(double fMin, double fMax);
-
 public:
 
 	Raven_TeamArea(Vector2D position, double size, Raven_Team* team);

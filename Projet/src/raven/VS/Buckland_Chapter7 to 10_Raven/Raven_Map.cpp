@@ -356,6 +356,24 @@ void Raven_Map::AddSoundTrigger(Raven_Bot* pSoundSource, double range)
   m_TriggerSystem.Register(new Trigger_SoundNotify(pSoundSource, range));
 }
 
+void Raven_Map::AddWeapon_Giver(int type_of_weapon, Vector2D position, int nodeIndex)
+{
+
+    Trigger_WeaponGiver* wg = new Trigger_WeaponGiver(position, nodeIndex);
+
+    wg->SetEntityType(type_of_weapon);
+
+    //add it to the appropriate vectors
+    m_TriggerSystem.Register(wg);
+
+    //let the corresponding navgraph node point to this object
+    NavGraph::NodeType& node = m_pNavGraph->GetNode(wg->GraphNodeIndex());
+    node.SetExtraInfo(wg);
+
+    //register the entity 
+    EntityMgr->RegisterEntity(wg);
+}
+
 //----------------------- UpdateTriggerSystem ---------------------------------
 //
 //  givena container of entities in the world this method updates them against

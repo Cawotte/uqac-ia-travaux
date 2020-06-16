@@ -29,6 +29,9 @@ private:
 public:
 
   //this type of trigger is created when reading a map file
+  Trigger_WeaponGiver(Vector2D position, int nodeIndex);
+
+  //this type of trigger is created when reading a map file
   Trigger_WeaponGiver(std::ifstream& datafile);
 
   //if triggered, this trigger will call the PickupWeapon method of the

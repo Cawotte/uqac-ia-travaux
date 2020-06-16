@@ -4,11 +4,26 @@ PARDIEU Arthur PARA28019709
 PETIT Clémence ????
 RAHMOUN Medhi ????
 
+--------------------
 Projet sur Raven
+--------------------
 
 Travail effectué :
 
 a) Agrandir les ensembles flous de la désirabilité du lance-roquettes.
+
+	- Agrandissement des ensembles flous utilisés dans la désirabilités du lance-roquettes et ajout de règles :
+		- La distance a désormais des créneaux "moyen-près" et "moyen-loin"
+		- Les munitions ont désormais des créneaux "pas mal de munitions" et "assez de munitions"
+		- La désirabilité a désormais des créneaux "plutôt désirable" et "pas trop désirable".
+	- Les règles ont été augmentés au nombre de 25 pour ajouter toutes les possibilités.
+
+	- Toutefois, j'ai mal interprété la consigne quand j'ai commencé à travailler sur la question, et avais d'abord ajouté :
+		- Deux nouvelles variables flous "Points de vie restant" et "Temps restant de rechargement" pour calculer la désirabilité
+		- J'ai ajouté 9 nouvelles règles les concernants et prenant en compte avec le reste des ensembles flous.
+
+	Après m'être rendu compte de mon erreur j'ai préféré garder la fonctionnalité plutôt que la supprimer, car elle donne
+	aussi de bons résultats, et enrichit le calcul de la désirabilité. 
 
 b) Modifier la visée de l'agent pour utiliser un comportement flou.
 

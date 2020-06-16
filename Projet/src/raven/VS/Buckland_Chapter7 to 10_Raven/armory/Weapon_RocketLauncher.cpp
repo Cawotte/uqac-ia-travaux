@@ -92,19 +92,25 @@ void RocketLauncher::InitializeFuzzyModule()
 {
 	FuzzyVariable& DistToTarget = m_FuzzyModule.CreateFLV("DistToTarget");
 
-	FzSet& Target_Close = DistToTarget.AddLeftShoulderSet("Target_Close", 0, 25, 150);
+	FzSet& Target_Close = DistToTarget.AddLeftShoulderSet("Target_Close", 0, 25, 90);
+	FzSet& Target_MedClose = DistToTarget.AddTriangularSet("Target_MedClose", 20, 90, 150);
 	FzSet& Target_Medium = DistToTarget.AddTriangularSet("Target_Medium", 25, 150, 300);
+	FzSet& Target_MedFar = DistToTarget.AddTriangularSet("Target_MedFar", 150, 225, 300);
 	FzSet& Target_Far = DistToTarget.AddRightShoulderSet("Target_Far", 150, 300, 1000);
 
 	FuzzyVariable& Desirability = m_FuzzyModule.CreateFLV("Desirability");
-	FzSet& VeryDesirable = Desirability.AddRightShoulderSet("VeryDesirable", 50, 75, 100);
-	FzSet& Desirable = Desirability.AddTriangularSet("Desirable", 25, 50, 75);
-	FzSet& Undesirable = Desirability.AddLeftShoulderSet("Undesirable", 0, 25, 50);
+	FzSet& VeryDesirable = Desirability.AddRightShoulderSet("VeryDesirable", 70, 90, 100);
+	FzSet& QuiteDesirable = Desirability.AddTriangularSet("QuiteDesirable", 45, 60, 80);
+	FzSet& Desirable = Desirability.AddTriangularSet("Desirable", 30, 45, 60);
+	FzSet& NotMuchDesirable = Desirability.AddTriangularSet("NotMuchDesirable", 15, 30, 45);
+	FzSet& Undesirable = Desirability.AddLeftShoulderSet("Undesirable", 0, 15, 30);
 
 	FuzzyVariable& AmmoStatus = m_FuzzyModule.CreateFLV("AmmoStatus");
-	FzSet& Ammo_Loads = AmmoStatus.AddRightShoulderSet("Ammo_Loads", 10, 30, 100);
-	FzSet& Ammo_Okay = AmmoStatus.AddTriangularSet("Ammo_Okay", 0, 10, 30);
-	FzSet& Ammo_Low = AmmoStatus.AddTriangularSet("Ammo_Low", 0, 0, 10);
+	FzSet& Ammo_Loads = AmmoStatus.AddRightShoulderSet("Ammo_Loads", 45, 50, 100);
+	FzSet& Ammo_Many = AmmoStatus.AddTriangularSet("Ammo_Many", 35, 50, 60);
+	FzSet& Ammo_Okay = AmmoStatus.AddTriangularSet("Ammo_Okay", 10, 30, 40);
+	FzSet& Ammo_Enough = AmmoStatus.AddTriangularSet("Ammo_Enough", 5, 10, 20);
+	FzSet& Ammo_Low = AmmoStatus.AddTriangularSet("Ammo_Low", 0, 0, 5);
 
 	//Use Health as a rule
 	int halfHealth = m_pOwner->MaxHealth() / 2;
@@ -126,15 +132,33 @@ void RocketLauncher::InitializeFuzzyModule()
 
 
 	m_FuzzyModule.AddRule(FzAND(Target_Close, Ammo_Loads), Undesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_Close, Ammo_Many), Undesirable);
 	m_FuzzyModule.AddRule(FzAND(Target_Close, Ammo_Okay), Undesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_Close, Ammo_Enough), Undesirable);
 	m_FuzzyModule.AddRule(FzAND(Target_Close, Ammo_Low), Undesirable);
 
+	m_FuzzyModule.AddRule(FzAND(Target_MedClose, Ammo_Loads), NotMuchDesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_MedClose, Ammo_Many), NotMuchDesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_MedClose, Ammo_Okay), NotMuchDesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_MedClose, Ammo_Enough), Undesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_MedClose, Ammo_Low), Undesirable);
+
 	m_FuzzyModule.AddRule(FzAND(Target_Medium, Ammo_Loads), VeryDesirable);
-	m_FuzzyModule.AddRule(FzAND(Target_Medium, Ammo_Okay), VeryDesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_Medium, Ammo_Many), QuiteDesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_Medium, Ammo_Okay), Desirable);
+	m_FuzzyModule.AddRule(FzAND(Target_Medium, Ammo_Enough), NotMuchDesirable);
 	m_FuzzyModule.AddRule(FzAND(Target_Medium, Ammo_Low), Desirable);
 
+	m_FuzzyModule.AddRule(FzAND(Target_MedFar, Ammo_Loads), QuiteDesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_MedFar, Ammo_Many), NotMuchDesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_MedFar, Ammo_Okay), NotMuchDesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_MedFar, Ammo_Enough), Undesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_MedFar, Ammo_Low), Undesirable);
+
 	m_FuzzyModule.AddRule(FzAND(Target_Far, Ammo_Loads), Desirable);
+	m_FuzzyModule.AddRule(FzAND(Target_Far, Ammo_Many), NotMuchDesirable);
 	m_FuzzyModule.AddRule(FzAND(Target_Far, Ammo_Okay), Undesirable);
+	m_FuzzyModule.AddRule(FzAND(Target_Far, Ammo_Enough), Undesirable);
 	m_FuzzyModule.AddRule(FzAND(Target_Far, Ammo_Low), Undesirable);
 
 	//New rules

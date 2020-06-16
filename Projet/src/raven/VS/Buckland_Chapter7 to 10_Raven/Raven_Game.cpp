@@ -211,10 +211,29 @@ bool Raven_Game::AttemptToAddBot(Raven_Bot* pBot)
 	//there are spawn points
 	int attempts = m_pMap->GetSpawnPoints().size();
 
+	int teamAttempts = 3;
+	//If the bot has a team, we will try to make it spawn at his area first.
+	if (pBot->hasTeam())
+	{
+		attempts += teamAttempts;
+	}
+
+	int totalAttempts = attempts;
+
 	while (--attempts >= 0)
 	{
-		//select a random spawn point
-		Vector2D pos = m_pMap->GetRandomSpawnPoint();
+		Vector2D pos;
+
+		//If the bot has a team, attemps in its team area first
+		if (pBot->hasTeam() && attempts > totalAttempts - teamAttempts)
+		{
+			pos = pBot->GetTeam()->GetTeamArea()->GetRandomPositionInsideArea();
+		}
+		else 
+		{
+			//select a random spawn point
+			pos = m_pMap->GetRandomSpawnPoint();
+		}
 
 		//check to see if it's occupied
 		std::list<Raven_Bot*>::const_iterator curBot = m_Bots.begin();
@@ -324,6 +343,10 @@ void Raven_Game::CreateTeam(Raven_Bot* teamLeader, int numMembersToAdd)
 
 		Raven_Team* newTeam = new Raven_Team(teamLeader);
 
+		//Add an Area to the team
+		Raven_TeamArea* teamArea = m_pMap->AddTeamArea(teamLeader->Pos(), 25, newTeam);
+		newTeam->SetTeamArea(teamArea);
+
 		if (numMembersToAdd > 0)
 		{
 			//Create bots to add
@@ -339,8 +362,9 @@ void Raven_Game::CreateTeam(Raven_Bot* teamLeader, int numMembersToAdd)
 			}
 		}
 		m_vecTeams.push_back(newTeam);
-	}
 
+
+	}
 
 }
 

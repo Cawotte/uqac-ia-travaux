@@ -1,6 +1,8 @@
 #include "Raven_Team.h"
 #include "Raven_Bot.h"
+#include "Raven_TeamArea.h"
 #include "misc/Cgdi.h"
+
 #include <algorithm>
 
 //init static
@@ -8,25 +10,34 @@ int Raven_Team::teamCount = 0;
 
 void Raven_Team::GetTeamColor(int teamID)
 {
+	//Brush is used to fill colors
+	//Pen is used to draw lines
+
 	switch (teamID)
 	{
 	case 0:
 		gdi->BlueBrush();
+		gdi->BluePen();
 		break;
 	case 1:
 		gdi->YellowBrush();
+		gdi->YellowPen();
 		break;
 	case 2:
 		gdi->GreenBrush();
+		gdi->GreenPen();
 		break;
 	case 3:
 		gdi->OrangeBrush();
+		gdi->OrangePen();
 		break;
 	case 4:
 		gdi->RedBrush();
+		gdi->RedPen();
 		break;
 	default:
 		gdi->BrownBrush();
+		gdi->BrownPen();
 		break;
 	}
 }

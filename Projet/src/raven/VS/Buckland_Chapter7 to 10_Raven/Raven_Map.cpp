@@ -88,6 +88,15 @@ Wall2D* Raven_Map::AddWall(Vector2D from, Vector2D to)
   return w;
 }
 
+Raven_TeamArea* Raven_Map::AddTeamArea(Vector2D position, float size, Raven_Team* team)
+{
+    Raven_TeamArea* teamArea = new Raven_TeamArea(position, size, team);
+
+    m_TeamAreas.push_back(teamArea);
+
+    return teamArea;
+}
+
 //--------------------------- AddDoor -----------------------------------------
 //-----------------------------------------------------------------------------
 void Raven_Map::AddDoor(std::ifstream& in)
@@ -409,5 +418,12 @@ void Raven_Map::Render()
     gdi->GreyBrush();
     gdi->GreyPen();
     gdi->Circle(*curSp, 7);
+  }
+
+  //Render Team Areas
+  std::vector<Raven_TeamArea*>::const_iterator curTa = m_TeamAreas.begin();
+  for (curTa; curTa != m_TeamAreas.end(); ++curTa)
+  {
+      (*curTa)->Render();
   }
 }

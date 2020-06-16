@@ -3,6 +3,7 @@
 
 #include <vector>
 
+class Raven_TeamArea;
 class Raven_Bot;
 
 
@@ -23,6 +24,8 @@ private:
 
 	//Whoever their are, the team wan them DEAD
 	Raven_Bot* m_pTarget;
+
+	Raven_TeamArea* m_pTeamArea;
 
 	void GetTeamColor(int teamID);
 
@@ -55,11 +58,17 @@ public:
 		m_pTarget = newTarget;
 	}
 
-	Raven_Bot* GetLeader() const { return m_pTeamLeader; }
-	Raven_Bot* GetTarget() const { return m_pTarget; }
-	int		   GetSize() const { return m_vecTeamMembers.size(); }
+	void SetTeamArea(Raven_TeamArea* area)
+	{
+		m_pTeamArea = area;
+	}
 
-	bool	   HasTarget() const { return m_pTarget != NULL;  }
+	Raven_Bot*		GetLeader() const { return m_pTeamLeader; }
+	Raven_Bot*		GetTarget() const { return m_pTarget; }
+	int				GetSize() const { return m_vecTeamMembers.size(); }
+	Raven_TeamArea* GetTeamArea() const { return m_pTeamArea; }
+
+	bool			HasTarget() const { return m_pTarget != NULL;  }
 
 };
 

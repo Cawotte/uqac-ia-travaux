@@ -271,6 +271,9 @@
     <ClCompile Include="Raven_Team.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Raven_TeamArea.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Raven_Bot.h">
@@ -610,6 +613,9 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Raven_Team.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Raven_TeamArea.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

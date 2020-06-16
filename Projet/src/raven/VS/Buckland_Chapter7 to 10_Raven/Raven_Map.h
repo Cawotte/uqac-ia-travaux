@@ -25,6 +25,8 @@
 #include "misc/CellSpacePartition.h"
 #include "triggers/TriggerSystem.h"
 
+#include "Raven_TeamArea.h"
+
 class BaseGameEntity;
 class Raven_Door;
 
@@ -53,6 +55,8 @@ private:
   //this holds a number of spawn positions. When a bot is instantiated
   //it will appear at a randomly selected point chosen from this vector
   std::vector<Vector2D>              m_SpawnPoints;
+
+  std::vector<Raven_TeamArea*>              m_TeamAreas;
 
   //a map may contain a number of sliding doors.
   std::vector<Raven_Door*>           m_Doors;
@@ -100,6 +104,8 @@ public:
   //adds a wall and returns a pointer to that wall. (this method can be
   //used by objects such as doors to add walls to the environment)
   Wall2D* AddWall(Vector2D from, Vector2D to);
+
+  Raven_TeamArea* AddTeamArea(Vector2D position, float size, Raven_Team* team);
 
   void    AddSoundTrigger(Raven_Bot* pSoundSource, double range);
 

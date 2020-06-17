@@ -33,7 +33,7 @@ bld/
 
 
 #Reinclude Debug
-!Common/[Dd]ebug/
+\!Common/[Dd]ebug/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

@@ -33,7 +33,8 @@ bld/
 
 
 #Reinclude Debug
-\!Common/[Dd]ebug/
+!**/Common/Debug
+
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -352,8 +353,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
-
 
 
 

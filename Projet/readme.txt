@@ -1,8 +1,8 @@
 Equipe :
 ENSUQUE Elie ENSE21059700
 PARDIEU Arthur PARA28019709
-PETIT Clémence ????
-RAHMOUN Medhi ????
+PETIT Clémence PETC25629800
+RAHMOUN Mehdi RAHM26069704
 
 --------------------
 Projet sur Raven

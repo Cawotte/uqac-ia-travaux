@@ -15,10 +15,13 @@
 //-----------------------------------------------------------------------------
 void Goal_Hide::Activate()
 {
+    debug_con << "ACTIVATE HIDE";
+
     m_iStatus = active;
     double distance = Raven_Feature::DistanceToItem(m_pOwner, type_bot);
     if (distance < 1) 
     {
+        debug_con << "FLEEE";
         m_pOwner->GetSteering()->FleeOn();
     }
 }
@@ -49,6 +52,7 @@ int Goal_Hide::Process()
 //-----------------------------------------------------------------------------
 void Goal_Hide::Terminate()
 {
+    debug_con << "TERMINATE HIDE";
 
     m_pOwner->GetSteering()->FleeOff();
 }

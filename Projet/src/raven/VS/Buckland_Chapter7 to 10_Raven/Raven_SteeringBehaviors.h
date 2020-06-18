@@ -220,7 +220,7 @@ public:
   void WanderOff(){if(On(wander)) m_iFlags ^=wander;}
   void SeparationOff(){if(On(separation)) m_iFlags ^=separation;}
   void WallAvoidanceOff(){if(On(wall_avoidance)) m_iFlags ^=wall_avoidance;}
-  void FleeOff() { {if (On(flee)) m_iFlags ^= flee; }
+  void FleeOff() {if (On(flee)) m_iFlags ^= flee; }
 
   bool SeekIsOn(){return On(seek);}
   bool ArriveIsOn(){return On(arrive);}

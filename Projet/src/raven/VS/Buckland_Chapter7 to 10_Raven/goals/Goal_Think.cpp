@@ -166,6 +166,16 @@ void Goal_Think::AddGoal_AttackTarget()
   }
 }
 
+void Goal_Think::AddGoal_Hide() 
+{
+    if (notPresent(goal_hide))
+    {
+        RemoveAllSubgoals();
+        AddSubgoal(new Goal_Hide(m_pOwner));
+    }
+
+}
+
 //-------------------------- Queue Goals --------------------------------------
 //-----------------------------------------------------------------------------
 void Goal_Think::QueueGoal_MoveToPosition(Vector2D pos)

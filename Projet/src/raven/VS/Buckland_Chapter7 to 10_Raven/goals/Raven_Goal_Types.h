@@ -23,6 +23,7 @@ enum
   goal_hunt_target,
   goal_strafe,
   goal_adjust_range,
+  goal_hide,
   goal_say_phrase
   
 };

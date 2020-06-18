@@ -82,6 +82,10 @@ std::string GoalTypeToString::Convert(int gt)
   case goal_say_phrase:
 
     return "say_phrase";
+  
+  case goal_hide:
+      return "hide";
+
 
   default:
 

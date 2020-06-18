@@ -5,6 +5,7 @@
 
 #include "Messaging/Telegram.h"
 #include "../Raven_Messages.h"
+#include "Raven_Feature.h"
 
 #include "debug/DebugConsole.h"
 #include "misc/cgdi.H"
@@ -15,41 +16,11 @@
 void Goal_Hide::Activate()
 {
     m_iStatus = active;
-
-
-    //mettre un m_pOwner qui arrête tout mouvement si il y a pas de soin sur la map 
-    m_pOwner->GetSteering()->SeekOn();
-
-
-    //if (m_bClockwise)
-    //{
-    //    if (m_pOwner->canStepRight(m_vStrafeTarget))
-    //    {
-    //        m_pOwner->GetSteering()->SetTarget(m_vStrafeTarget);
-    //    }
-    //    else
-    //    {
-    //        //debug_con << "changing" << "";
-    //        m_bClockwise = !m_bClockwise;
-    //        m_iStatus = inactive;
-    //    }
-    //}
-
-    //else
-    //{
-    //    if (m_pOwner->canStepLeft(m_vStrafeTarget))
-    //    {
-    //        m_pOwner->GetSteering()->SetTarget(m_vStrafeTarget);
-    //    }
-    //    else
-    //    {
-    //        // debug_con << "changing" << "";
-    //        m_bClockwise = !m_bClockwise;
-    //        m_iStatus = inactive;
-    //    }
-    //}
-
-
+    double distance = Raven_Feature::DistanceToItem(m_pOwner, type_bot);
+    if (distance < 1) 
+    {
+        m_pOwner->GetSteering()->FleeOn();
+    }
 }
 
 
@@ -62,7 +33,7 @@ int Goal_Hide::Process()
     ActivateIfInactive();
 
     //if target goes in field of view terminate
-    if (!m_pOwner->GetTargetSys()->isTargetWithinFOV())
+    if (Raven_Feature::DistanceToItem(m_pOwner, type_health)<1)
     {
         m_iStatus = inactive;
     }
@@ -78,7 +49,8 @@ int Goal_Hide::Process()
 //-----------------------------------------------------------------------------
 void Goal_Hide::Terminate()
 {
-    m_pOwner->GetSteering()->SeekOff();
+
+    m_pOwner->GetSteering()->FleeOff();
 }
 
 //---------------------------- Render -----------------------------------------

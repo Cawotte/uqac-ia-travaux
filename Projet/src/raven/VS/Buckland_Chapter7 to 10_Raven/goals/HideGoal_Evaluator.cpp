@@ -2,6 +2,11 @@
 #include "Goal_Think.h"
 #include "Raven_Goal_Types.h"
 #include "HideGoal_Evaluator.h"
+#include "../Raven_Bot.h"
+#include "../Raven_Game.h"
+
+
+
 
 
 
@@ -14,18 +19,17 @@ double HideGoal_Evaluator::CalculateDesirability(Raven_Bot* pBot)
 {
     double Desirability = 0.0;
 
-    //Faire le calcul de la désirabilité si seulement on est à une certaine distance d'un autre bot
+    //Check if there's no health item in current world
+        if (Raven_Feature::DistanceToItem(pBot, type_health) == 1) 
+        {
+            const double Tweaker = 1.0;
+            Desirability = Tweaker * (1 - Raven_Feature::Health(pBot));
+        }
 
-    if (pBot->GetTargetSys()->isTargetPresent())
-    {
-        const double Tweaker = 1.0;
 
-        Desirability = Tweaker *
-            Raven_Feature::Health(pBot);
 
         //bias the value according to the personality of the bot
         //Desirability *= m_dCharacterBias;
-    }
 
     return Desirability;
 }
@@ -34,14 +38,14 @@ double HideGoal_Evaluator::CalculateDesirability(Raven_Bot* pBot)
 //-----------------------------------------------------------------------------
 void HideGoal_Evaluator::SetGoal(Raven_Bot* pBot)
 {
-    pBot->GetBrain()->AddGoal_AttackTarget();
+    pBot->GetBrain()->AddGoal_Hide();
 }
 
 //-------------------------- RenderInfo ---------------------------------------
 //-----------------------------------------------------------------------------
 void HideGoal_Evaluator::RenderInfo(Vector2D Position, Raven_Bot* pBot)
 {
-    gdi->TextAtPos(Position, "AT: " + ttos(CalculateDesirability(pBot), 2));
+    gdi->TextAtPos(Position, "HIIIIIIIIIIIDe AT: " + ttos(CalculateDesirability(pBot), 2));
     return;
 
     std::string s = ttos(Raven_Feature::Health(pBot)) + ", " + ttos(Raven_Feature::TotalWeaponStrength(pBot));

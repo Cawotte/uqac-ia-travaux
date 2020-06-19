@@ -207,6 +207,8 @@ Vector2D Raven_Steering::CalculatePrioritized()
   }
 
 
+
+
   return m_vSteeringForce;
 }
 

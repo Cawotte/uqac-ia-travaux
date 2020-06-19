@@ -45,9 +45,9 @@ void HideGoal_Evaluator::SetGoal(Raven_Bot* pBot)
 //-----------------------------------------------------------------------------
 void HideGoal_Evaluator::RenderInfo(Vector2D Position, Raven_Bot* pBot)
 {
-    gdi->TextAtPos(Position, "HIIIIIIIIIIIDe AT: ");//+ ttos(CalculateDesirability(pBot), 2));
+    //gdi->TextAtPos(Position, "HIIIIIIIIIIIDe AT: " + ttos(CalculateDesirability(pBot), 2));
     return;
 
-   // std::string s = ttos(Raven_Feature::Health(pBot)) + ", " + ttos(Raven_Feature::TotalWeaponStrength(pBot));
-   // gdi->TextAtPos(Position + Vector2D(0, 12), s);
+    //std::string s = ttos(Raven_Feature::Health(pBot)) + ", " + ttos(Raven_Feature::TotalWeaponStrength(pBot));
+    //gdi->TextAtPos(Position + Vector2D(0, 12), s);
 }

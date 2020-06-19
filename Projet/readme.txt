@@ -49,3 +49,13 @@ c) Permettre à un joueur humain d'avoir une équipe et les faire coopérer.
 		- Lorsqu'un un membre de l'équipe meurt, ses armes apparaissent dans le spawn.
 		
 
+
+e) Implémenter un nouveau but
+	- Ajout d'un nouveau but "se cacher", le bot va se cacher si les conditions suivantes se présentent
+		- son niveau de vie est bas
+		- il n'y a pas d'objet de soin disponible
+	- Comportement adopté par le bot pour réaliser le but : le bot fuit sa cible jusqu'à ce que celle-ci soit à une distance suffisante, 
+	  auquel cas le bot reste immobile en attendant la réapparition d'un objet de soin
+	- Implémentation : Evaluateur du but, but et ajout d'un comportement flee au steeringbehavior du bot
+
+

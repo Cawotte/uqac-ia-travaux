@@ -83,6 +83,10 @@ Raven_Bot::Raven_Bot(Raven_Game* world, Vector2D pos) :
 		script->GetDouble("Bot_AimPersistance"));
 
 	m_pSensoryMem = new Raven_SensoryMemory(this, script->GetDouble("Bot_MemorySpan"));
+
+	//initialisation pour les données d'observation du training set
+	m_vecObservation = std::vector<double>(0);
+	m_vecTarget = std::vector<double>(0);
 }
 
 //-------------------------------- dtor ---------------------------------------
@@ -163,6 +167,28 @@ void Raven_Bot::Update()
 		//and takes a shot if a shot is possible
 		m_pWeaponSys->TakeAimAndShoot();
 	}
+	else {
+		if (m_pTargSys->isTargetPresent()) {
+
+			m_vecObservation.clear();
+			m_vecTarget.clear();
+
+			m_vecObservation.push_back((Pos().Distance(m_pTargSys->GetTarget()->Pos())));
+			m_vecObservation.push_back(m_pTargSys->isTargetWithinFOV());
+			m_vecObservation.push_back(m_pWeaponSys->GetAmmoRemainingForWeapon(m_pWeaponSys->GetCurrentWeapon()->GetType()));
+			m_vecObservation.push_back(m_pWeaponSys->GetCurrentWeapon()->GetType());
+			m_vecObservation.push_back((Health()));
+
+			if (!m_bShot) {
+				m_vecTarget.push_back(0); // La classe est négative.  Ne tire pas 
+			}
+			else {
+				m_vecTarget.push_back(1); // la classe de l'observation est positive. Il tire
+			}
+		}
+	}
+	m_bShot = false;
+
 }
 
 
@@ -402,6 +428,7 @@ void Raven_Bot::ChangeWeapon(unsigned int type)
 void Raven_Bot::FireWeapon(Vector2D pos)
 {
 	m_pWeaponSys->ShootAt(pos);
+	m_bShot = true;
 }
 
 void Raven_Bot::SetTeam(Raven_Team* team)

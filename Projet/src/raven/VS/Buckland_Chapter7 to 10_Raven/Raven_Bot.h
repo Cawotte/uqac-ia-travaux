@@ -38,7 +38,7 @@ private:
 
   enum Status{alive, dead, spawning};
 
-private:
+protected:
 
   //alive, dead or spawning?
   Status                             m_Status;
@@ -107,11 +107,18 @@ private:
 
   //set to true when a human player takes over control of the bot
   bool                               m_bPossessed;
+  //set to true when has shot by when possessed
+  bool                               m_bShot;
 
   //a vertex buffer containing the bot's geometry
   std::vector<Vector2D>              m_vecBotVB;
   //the buffer for the transformed vertices
   std::vector<Vector2D>              m_vecBotVBTrans;
+
+  //apprentissage. 
+  //donnee à enregistrer décrivant une situation de comportement de l'agent 
+  std::vector<double> m_vecObservation; //distance-target, visibilite, quantite-arme, type arme, son niveau de vie
+  std::vector<double> m_vecTarget; //classes sous forme d'un vecteur de sortie. 
 
 
   //bots shouldn't be copied, only created or respawned
@@ -223,6 +230,9 @@ public:
   Raven_SensoryMemory* const         GetSensoryMem()const{return m_pSensoryMem;}
 
   Raven_Team* const                  GetTeam() const { return m_pTeam; }
+
+  std::vector<double> GetDataShoot() { return m_vecObservation; }
+  std::vector<double> GetTargetShoot() { return m_vecTarget; }
 
 
 };

@@ -16,11 +16,11 @@
 void Goal_Hide::Activate()
 {
     m_iStatus = active;
-    double distance = Raven_Feature::DistanceToItem(m_pOwner, type_bot);
-    if (distance < 1) 
-    {
-        m_pOwner->GetSteering()->FleeOn();
-    }
+	if (m_pOwner->GetTargetBot() != nullptr) {
+		m_pOwner->GetSteering()->SetTarget(m_pOwner->GetTargetBot()->Pos());
+		m_pOwner->GetSteering()->FleeOn();
+	}
+    
 }
 
 
@@ -35,8 +35,12 @@ int Goal_Hide::Process()
     //if target goes in field of view terminate
     if (Raven_Feature::DistanceToItem(m_pOwner, type_health)<1)
     {
-        m_iStatus = inactive;
+        m_iStatus = completed;
     }
+	else if (m_pOwner->GetTargetBot() == nullptr || !m_pOwner->GetTargetSys()->isTargetWithinFOV()) {
+		m_iStatus = inactive;
+		m_pOwner->GetSteering()->FleeOff();
+	}
 
     //else if bot reaches the target position set status to inactive so the goal 
     //is reactivated on the next update-step

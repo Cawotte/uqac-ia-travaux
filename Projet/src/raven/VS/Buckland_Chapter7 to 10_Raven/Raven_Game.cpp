@@ -237,7 +237,8 @@ void Raven_Game::Update()
 			(*curBot)->Update();
 			if ((*curBot)->isPossessed())
 			{
-				if ((m_TrainingSet.GetInputSet().size() < 200) & ((*curBot)->Score() > 1)) {
+				//if ((m_TrainingSet.GetInputSet().size() < 200) & ((*curBot)->Score() > 1)) {
+				if ((m_TrainingSet.GetInputSet().size() < 200)) {
 
 					//ajouter une observation au jeu d'entrainement
 					AddData((*curBot)->GetDataShoot(), (*curBot)->GetTargetShoot());
@@ -274,7 +275,6 @@ void Raven_Game::Update()
 	if ((m_TrainingSet.GetInputSet().size() >= 200) & (!m_LancerApprentissage)) {
 
 
-		debug_con << "On passe par la" << "";
 
 		std::thread t1(&Raven_Game::TrainThread, this);
 		t1.detach();

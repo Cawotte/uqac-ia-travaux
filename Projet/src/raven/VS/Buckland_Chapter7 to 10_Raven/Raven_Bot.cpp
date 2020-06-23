@@ -114,6 +114,7 @@ Raven_Bot::~Raven_Bot()
 //-----------------------------------------------------------------------------
 void Raven_Bot::Spawn(Vector2D pos)
 {
+
 	SetAlive();
 	m_pBrain->RemoveAllSubgoals();
 	m_pTargSys->ClearTarget();

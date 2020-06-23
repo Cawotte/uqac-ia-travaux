@@ -19,6 +19,7 @@
 #include "goals/Raven_Goal_Types.h"
 #include "goals/Goal_Think.h"
 
+#include <chrono>;
 
 #include "Debug/DebugConsole.h"
 
@@ -42,6 +43,25 @@ LearningBot::~LearningBot()
 	delete m_pVisionUpdateRegulator;
 	delete m_pWeaponSys;
 	delete m_pSensoryMem;
+}
+
+void LearningBot::SetAlive()
+{
+	debug_con << "Setting alive a learning bot du cul d'ID : "<< ID() << "";
+	begin = std::chrono::high_resolution_clock::now();
+	Raven_Bot::SetAlive();
+}
+
+void LearningBot::SetDead()
+{
+
+	auto end = std::chrono::high_resolution_clock::now();
+
+	debug_con << "LEARNING BOT " << ID() << ", LIFE DURATION : " << (std::chrono::duration_cast<std::chrono::seconds> (end - begin).count()) << "s" << "";
+	debug_con << "LEARNING BOT " << ID() << ", SCORE : " << Score() << "";
+	Raven_Bot::SetDead();
+
+
 }
 
 
@@ -118,6 +138,8 @@ void LearningBot::Update()
 			
 		}
 	}
+
+
 }
 
 

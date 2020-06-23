@@ -15,7 +15,6 @@
 //-----------------------------------------------------------------------------
 void Goal_Hide::Activate()
 {
-    debug_con << "ACTIVATE HIDE";
 
     m_iStatus = active;
 	if (m_pOwner->GetTargetBot() != nullptr) {
@@ -55,7 +54,6 @@ int Goal_Hide::Process()
 //-----------------------------------------------------------------------------
 void Goal_Hide::Terminate()
 {
-    debug_con << "TERMINATE HIDE";
 
     m_pOwner->GetSteering()->FleeOff();
 }

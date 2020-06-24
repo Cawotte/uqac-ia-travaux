@@ -51,8 +51,8 @@ c) Permettre à un joueur humain d'avoir une équipe et les faire coopérer.
 d) Création d'un bot apprenant à partir de l'humain.
 
 	- Mise en place de collecte de données concernant le comportement des bots lorsqu'ils sont contrôlés par l'humain.
-	- Utilisation du réseau de neurones pour apprendre du comportement de l'humain.
-	- Applicaiton des données et de l'apprentissage sur un nouveau type de bot, qui tire selon le comportement qu'il a appris par l'humain.
+	- Utilisation du réseau de neurones pour apprendre du comportement de l'humain lorsque suffisamment de données ont été collectées.
+	- Application des données et de l'apprentissage sur un nouveau type de bot, qui tire selon le comportement qu'il a appris par l'humain.
 		
 
 

@@ -361,10 +361,13 @@ void Raven_Game::AddBots(unsigned int NumBotsToAdd, bool isLearningBot)
 		if (!isLearningBot) {
 			rb= new Raven_Bot(this, Vector2D());
 		}
-		else
+		else if(m_estEntraine)
 		{
 			rb = new LearningBot(this, Vector2D());
 			debug_con << "Instanciation d'un bot apprenant" << rb->ID() << "";
+		}
+		else {
+			debug_con << "on veut un bot apprennant : " << isLearningBot << " mais on pas entrainé : "<<m_estEntraine;
 		}
 
 		//switch the default steering behaviors on

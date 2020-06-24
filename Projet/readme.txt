@@ -47,6 +47,12 @@ c) Permettre à un joueur humain d'avoir une équipe et les faire coopérer.
 	- Quand l'équipe est générée, une zone d'équipe est crée à l'endroit où le Leader se trouve.
 		- Si possible, les membres de l'équipe respawn dans cette zone.
 		- Lorsqu'un un membre de l'équipe meurt, ses armes apparaissent dans le spawn.
+
+d) Création d'un bot apprenant à partir de l'humain.
+
+	- Mise en place de collecte de données concernant le comportement des bots lorsqu'ils sont contrôlés par l'humain.
+	- Utilisation du réseau de neurones pour apprendre du comportement de l'humain.
+	- Applicaiton des données et de l'apprentissage sur un nouveau type de bot, qui tire selon le comportement qu'il a appris par l'humain.
 		
 
 

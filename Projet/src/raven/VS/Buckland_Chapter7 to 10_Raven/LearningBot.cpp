@@ -45,14 +45,14 @@ LearningBot::~LearningBot()
 	delete m_pSensoryMem;
 }
 
-void LearningBot::SetAlive()
+ void LearningBot::SetAlive()
 {
 	debug_con << "Setting alive a learning bot du cul d'ID : "<< ID() << "";
 	begin = std::chrono::high_resolution_clock::now();
 	Raven_Bot::SetAlive();
 }
 
-void LearningBot::SetDead()
+ void LearningBot::SetDead()
 {
 
 	auto end = std::chrono::high_resolution_clock::now();

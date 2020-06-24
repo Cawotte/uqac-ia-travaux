@@ -20,8 +20,8 @@ public:
 	LearningBot(Raven_Game* world, Vector2D pos);
 	~LearningBot();
 
-	void SetDead() ;
-	void SetAlive();
+	virtual void SetDead() ;
+	virtual void SetAlive();
 
 
 

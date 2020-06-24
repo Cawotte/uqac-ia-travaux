@@ -47,7 +47,7 @@ LearningBot::~LearningBot()
 
  void LearningBot::SetAlive()
 {
-	debug_con << "Setting alive a learning bot du cul d'ID : "<< ID() << "";
+	debug_con << "Setting alive a learning bot whose ID is: "<< ID() << "";
 	begin = std::chrono::high_resolution_clock::now();
 	Raven_Bot::SetAlive();
 }
